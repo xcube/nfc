@@ -1,14 +1,15 @@
 package org.xcube.nfc;
 
 
-import java.util.Map.Entry;
-import org.xcube.nfc.domain.Item;
-import org.xcube.nfc.service.ItemInfoService;
-import org.xcube.nfc.service.ItemInfoServiceImpl;
+import java.math.BigDecimal;
 import java.util.Properties;
 
+import org.xcube.nfc.domain.Item;
 import org.xcube.nfc.handler.NfcTagHandler;
 import org.xcube.nfc.handler.NfcTagHandlerImpl;
+import org.xcube.nfc.handler.TagField;
+import org.xcube.nfc.service.ItemInfoService;
+import org.xcube.nfc.service.ItemInfoServiceImpl;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,14 +21,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 public class XcubeNFCActivity extends Activity {
-
-    private static final String TAG = "ViewTag";
+	
+	private static final String TAG = "ViewTag";
     private static final String COUNT_LABEL = "";
     private static final String ITEM_LABEL = "item";
     private static final String CALORIES_LABEL = "calories";
     private static final String PRICE_LABEL = "price";
 
     private ItemInfoService itemInfoService = new ItemInfoServiceImpl();
+    NfcTagHandler tagHandler = new NfcTagHandlerImpl();
+
     private Properties tagData = new Properties();
     
     /** Called when the activity is first created. */
@@ -37,29 +40,43 @@ public class XcubeNFCActivity extends Activity {
         super.onCreate(savedInstanceState);
         setMainView();
         resolveIntent(getIntent());
-        addItem(null);
+        Item item = getItem();
+        addItem(item);
     }
 
-    public void addItem(Item item) {
+    private Item getItem() {
+		
+		 if(!tagData.isEmpty()) {
+	        	
+	        	String type = tagData.getProperty(TagField.TYPE.getKey());
+	        	String upc = tagData.getProperty(TagField.UPC.getKey());
+	        	String price = tagData.getProperty(TagField.PRICE.getKey());
+	        	if(null == upc || price == null) {
+	        		return null;
+	        	}
+	        	
+	        	try {
+	        		Item item = itemInfoService.getItem(upc);
+					item.setPrice(new BigDecimal(price));
+					return item;
+				} catch (NumberFormatException e) {
+					Log.e(getClass().getName(), e.getMessage());
+				}
+		 }
+		
+		return null;
+	}
 
-        TableRow itemsTableRow = (TableRow) findViewById(R.id.items);
+	public void addItem(Item item) {
 
-        /*
-        itemsTableRow.addView(getTextView("1"));
-        itemsTableRow.addView(getTextView("beef"));
-        itemsTableRow.addView(getTextView("300"));
-        itemsTableRow.addView(getTextView("2.99"));
-        */
-        
-        if(!tagData.isEmpty()) {
-        	for(Entry<Object,Object> data: tagData.entrySet()) {
-        		String key = (String)data.getKey();
-        		String value = (String)data.getValue();
-        		itemsTableRow.addView(getTextView(key));
-        		itemsTableRow.addView(getTextView(value));
-        		
-        	}
-        }
+		if(null != item) {
+	        TableRow itemsTableRow = (TableRow) findViewById(R.id.items);
+	        	
+	        itemsTableRow.addView(getTextView(item.getUpc()));
+	       	itemsTableRow.addView(getTextView(item.getName()));
+	       	itemsTableRow.addView(getTextView(String.valueOf(item.getCalories())));
+	       	itemsTableRow.addView(getTextView(item.getPrice().toPlainString()));
+		}
     }
 
     public TextView getTextView(String text) {
@@ -95,13 +112,8 @@ public class XcubeNFCActivity extends Activity {
             // will cause this activity to be restarted with onNewIntent(). At
             // that time we read it from the database and view it.
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            NfcTagHandler tagHandler = new NfcTagHandlerImpl();
             tagData = tagHandler.readTag(rawMsgs);
-            /*
-            Intent sendData = new Intent(this, FakeTagsActivity.class);
-            sendData.putExtra("info", COUNT_LABEL.getText().toString);
-            startActivity(sendData);
-            */
+            
         } else {
             Log.e(TAG, "Unknown intent " + intent);
             finish();
