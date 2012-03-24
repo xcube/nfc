@@ -158,7 +158,6 @@ public class XcubeNFCActivity extends Activity {
             
         } else {
             Log.e(TAG, "Unknown intent " + intent);
-            finish();
             return;
         }
     }
