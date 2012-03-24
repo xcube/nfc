@@ -13,6 +13,8 @@ public class Item {
     private String name;
     private int calories;
     private BigDecimal price;
+    private NutritionInfo per100g;
+    private NutritionInfo each;
 
     /**
      * @return universal product code (unique item identifier)
@@ -70,14 +72,39 @@ public class Item {
         this.price = price;
     }
 
+    /**
+     * @return nutrition information per 100 grams
+     */
+    public NutritionInfo getPer100g() {
+        return per100g;
+    }
+
+    /**
+     * @param per100g nutrition information per 100 grams
+     */
+    public void setPer100g(NutritionInfo per100g) {
+        this.per100g = per100g;
+    }
+
+    /**
+     * @return nutrition information per item
+     */
+    public NutritionInfo getEach() {
+        return each;
+    }
+
+    /**
+     * @param each nutrition information per item
+     */
+    public void setEach(NutritionInfo each) {
+        this.each = each;
+    }
+
     @Override
     public int hashCode() {
 
         final int prime = 31;
         int result = 1;
-        result = prime * result + calories;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((price == null) ? 0 : price.hashCode());
         result = prime * result + ((upc == null) ? 0 : upc.hashCode());
         return result;
     }
@@ -89,23 +116,6 @@ public class Item {
             return false;
         }
         Item other = (Item) obj;
-        if (calories != other.calories) {
-            return false;
-        }
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (price == null) {
-            if (other.price != null) {
-                return false;
-            }
-        } else if (!price.equals(other.price)) {
-            return false;
-        }
         if (upc == null) {
             if (other.upc != null) {
                 return false;
