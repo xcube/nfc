@@ -1,19 +1,31 @@
 package org.xcube.nfc;
 
+import java.util.Properties;
+
 import org.xcube.nfc.domain.Item;
+import org.xcube.nfc.handler.NfcTagHandler;
+import org.xcube.nfc.handler.NfcTagHandlerImpl;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 public class XcubeNFCActivity extends Activity {
 
+    private static final String TAG = "ViewTag";
     private static final String COUNT_LABEL = "";
     private static final String ITEM_LABEL = "item";
     private static final String CALORIES_LABEL = "calories";
     private static final String PRICE_LABEL = "price";
-
+    private Properties tagData = new Properties();
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +42,10 @@ public class XcubeNFCActivity extends Activity {
         itemsTableRow.addView(getTextView("beef"));
         itemsTableRow.addView(getTextView("300"));
         itemsTableRow.addView(getTextView("2.99"));
+        
+        if(!tagData.isEmpty()) {
+        	// TODO: read properties and add data to table view.
+        }
     }
 
     public TextView getTextView(String text) {
@@ -54,5 +70,24 @@ public class XcubeNFCActivity extends Activity {
 
         TextView priceLabel = (TextView) findViewById(R.id.heading_price_label);
         priceLabel.setText(PRICE_LABEL);
+    }
+    
+    void resolveIntent(Intent intent) {
+        // Parse the intent
+        String action = intent.getAction();
+        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
+            // When a tag is discovered we send it to the service to be save. We
+            // include a PendingIntent for the service to call back onto. This
+            // will cause this activity to be restarted with onNewIntent(). At
+            // that time we read it from the database and view it.
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            NfcTagHandler tagHandler = new NfcTagHandlerImpl();
+            tagData = tagHandler.readTag(rawMsgs);
+           
+        } else {
+            Log.e(TAG, "Unknown intent " + intent);
+            finish();
+            return;
+        }
     }
 }

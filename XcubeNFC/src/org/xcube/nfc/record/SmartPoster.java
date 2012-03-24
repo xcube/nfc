@@ -17,6 +17,7 @@ package org.xcube.nfc.record;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.Properties;
 
 import org.xcube.nfc.NdefMessageParser;
 import org.xcube.nfc.R;
@@ -100,6 +101,14 @@ public class SmartPoster implements ParsedNdefRecord {
         return mTitleRecord;
     }
 
+    @Override
+    public Properties getRecordData() {
+    	Properties properties = new Properties();
+    	properties.put("title", getTitle().getRecordData());
+    	properties.put("uriRecord", getUriRecord());
+    	return properties;
+    }
+    
     public static SmartPoster parse(NdefRecord record) {
         Preconditions.checkArgument(record.getTnf() == NdefRecord.TNF_WELL_KNOWN);
         Preconditions.checkArgument(Arrays.equals(record.getType(), NdefRecord.RTD_SMART_POSTER));

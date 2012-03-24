@@ -17,6 +17,7 @@ package org.xcube.nfc.record;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Properties;
 
 import org.xcube.nfc.R;
 
@@ -101,6 +102,13 @@ public class UriRecord implements ParsedNdefRecord {
 
     public Uri getUri() {
         return mUri;
+    }
+    
+    @Override
+    public Properties getRecordData() {
+    	Properties properties = new Properties();
+        properties.put("uri", getUri());
+        return properties;
     }
 
     /**
