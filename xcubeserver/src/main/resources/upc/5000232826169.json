@@ -1,0 +1,13 @@
+{
+    "type": "processed/pasta/penne",
+    "name": "Penne Rigate",
+    "origin": "1",
+    "quantity": "500g",
+    "upc": "5000232826169",
+    "per100g": {
+        "calories": "359",
+        "protein": "13.5",
+        "fat": "1",
+        "carbohydrate": "74"
+    }
+}

@@ -16,6 +16,8 @@
 
 package org.xcube.nfc.record;
 
+import java.util.Properties;
+
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,4 +32,5 @@ public interface ParsedNdefRecord {
     public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent,
             int offset);
 
+    public Properties getRecordData();
 }
