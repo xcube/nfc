@@ -2,7 +2,6 @@ package org.xcube.nfc.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -13,11 +12,9 @@ import org.json.JSONObject;
 import org.xcube.nfc.domain.Item;
 import org.xcube.nfc.util.StringUtil;
 
-import android.util.JsonReader;
-
 public class ItemInfoServiceImpl implements ItemInfoService {
 
-    private static final String ITEM_INFO_ENDPOINT = "http://192.168.43.93:8080/xcubeserver/upc/";
+    private static final String ITEM_INFO_ENDPOINT = "http://xcubeserver.herokuapp.com/xcubeserver/upc/";
 
     private static final String ITEM_TYPE_KEY = "type";
     private static final String ITEM_NAME_KEY = "name";
@@ -26,7 +23,7 @@ public class ItemInfoServiceImpl implements ItemInfoService {
     private static final String ITEM_UPC_KEY = "upc";
 
     public Item getItem(String upc) {
-        return httpRequest("50378289");
+        return httpRequest(upc);
     }
 
     /**
@@ -44,8 +41,6 @@ public class ItemInfoServiceImpl implements ItemInfoService {
         try {
             JSONObject jsonItem = new JSONObject(itemJsonString);
             item.setName(jsonItem.getString(ITEM_NAME_KEY));
-            item.setCalories(300);
-            item.setPrice(new BigDecimal("3.50"));
             item.setUpc(ITEM_UPC_KEY);
         } catch (JSONException e) {
             // TODO Auto-generated catch block

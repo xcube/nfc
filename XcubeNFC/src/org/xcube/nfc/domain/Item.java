@@ -1,7 +1,5 @@
 package org.xcube.nfc.domain;
 
-import java.math.BigDecimal;
-
 /**
  * Represents one (tagged) item
  * 
@@ -11,8 +9,6 @@ public class Item {
 
     private String upc;
     private String name;
-    private int calories;
-    private BigDecimal price;
     private NutritionInfo per100g;
     private NutritionInfo each;
 
@@ -42,34 +38,6 @@ public class Item {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * @return total amount of calories per item
-     */
-    public int getCalories() {
-        return calories;
-    }
-
-    /**
-     * @param caloires total amount of calories per item
-     */
-    public void setCalories(int caloires) {
-        this.calories = caloires;
-    }
-
-    /**
-     * @return price per item
-     */
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    /**
-     * @param price item price
-     */
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     /**
@@ -128,7 +96,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return String.format("Item [upc = %s, name = %s, calories = %d price = %d]", 
-                name, calories, price);
+        return String.format("Item [upc = %s, name = %s]", 
+                name);
     }
 }
