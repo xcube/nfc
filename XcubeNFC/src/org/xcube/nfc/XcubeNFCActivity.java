@@ -1,5 +1,6 @@
 package org.xcube.nfc;
 
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.xcube.nfc.domain.Item;
@@ -31,6 +32,7 @@ public class XcubeNFCActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setMainView();
+        resolveIntent(getIntent());
         addItem(null);
     }
 
@@ -38,13 +40,21 @@ public class XcubeNFCActivity extends Activity {
 
         TableRow itemsTableRow = (TableRow) findViewById(R.id.items);
 
+        /*
         itemsTableRow.addView(getTextView("1"));
         itemsTableRow.addView(getTextView("beef"));
         itemsTableRow.addView(getTextView("300"));
         itemsTableRow.addView(getTextView("2.99"));
+        */
         
         if(!tagData.isEmpty()) {
-        	// TODO: read properties and add data to table view.
+        	for(Entry<Object,Object> data: tagData.entrySet()) {
+        		String key = (String)data.getKey();
+        		String value = (String)data.getValue();
+        		itemsTableRow.addView(getTextView(key));
+        		itemsTableRow.addView(getTextView(value));
+        		
+        	}
         }
     }
 
@@ -75,7 +85,7 @@ public class XcubeNFCActivity extends Activity {
     void resolveIntent(Intent intent) {
         // Parse the intent
         String action = intent.getAction();
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
             // When a tag is discovered we send it to the service to be save. We
             // include a PendingIntent for the service to call back onto. This
             // will cause this activity to be restarted with onNewIntent(). At
@@ -83,7 +93,11 @@ public class XcubeNFCActivity extends Activity {
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             NfcTagHandler tagHandler = new NfcTagHandlerImpl();
             tagData = tagHandler.readTag(rawMsgs);
-           
+            /*
+            Intent sendData = new Intent(this, FakeTagsActivity.class);
+            sendData.putExtra("info", COUNT_LABEL.getText().toString);
+            startActivity(sendData);
+            */
         } else {
             Log.e(TAG, "Unknown intent " + intent);
             finish();
