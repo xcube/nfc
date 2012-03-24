@@ -51,13 +51,13 @@ public class XcubeNFCActivity extends Activity {
 	        	String type = tagData.getProperty(TagField.TYPE.getKey());
 	        	String upc = tagData.getProperty(TagField.UPC.getKey());
 	        	String price = tagData.getProperty(TagField.PRICE.getKey());
-	        	if(null == upc || price == null) {
+	        	if(null == upc) {
 	        		return null;
 	        	}
 	        	
 	        	try {
 	        		Item item = itemInfoService.getItem(upc);
-					item.setPrice(new BigDecimal(price));
+					item.setPrice(getPrice(price));
 					return item;
 				} catch (NumberFormatException e) {
 					Log.e(getClass().getName(), e.getMessage());
@@ -65,6 +65,11 @@ public class XcubeNFCActivity extends Activity {
 		 }
 		
 		return null;
+	}
+
+	private BigDecimal getPrice(String price) {	
+		price = (null == price || price.isEmpty()) ? "0" : price;
+		return new BigDecimal(price);
 	}
 
 	public void addItem(Item item) {

@@ -3,6 +3,7 @@
     "name": "Quorn burgers",
     "origin": "uk",
     "quantity": "2",
+    "img": "http://www.ocado.com/catalog/images-hires/53663011_H.jpg?identifier=5fe94fb0f4dba39b9df91e97622d2ec2",
     "upc": "5019503012194",
     "per100g": {
         "calories": "160",
