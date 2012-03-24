@@ -57,7 +57,6 @@ public class XcubeNFCActivity extends Activity {
 	        	
 	        	try {
 	        		Item item = itemInfoService.getItem(upc);
-					item.setPrice(new BigDecimal(price));
 					return item;
 				} catch (NumberFormatException e) {
 					Log.e(getClass().getName(), e.getMessage());
@@ -75,7 +74,6 @@ public class XcubeNFCActivity extends Activity {
 	        itemsTableRow.addView(getTextView(item.getUpc()));
 	       	itemsTableRow.addView(getTextView(item.getName()));
 	       	itemsTableRow.addView(getTextView(String.valueOf(item.getCalories())));
-	       	itemsTableRow.addView(getTextView(item.getPrice().toPlainString()));
 		}
     }
 

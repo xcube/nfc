@@ -2,7 +2,6 @@ package org.xcube.nfc.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -12,8 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xcube.nfc.domain.Item;
 import org.xcube.nfc.util.StringUtil;
-
-import android.util.JsonReader;
 
 public class ItemInfoServiceImpl implements ItemInfoService {
 
@@ -45,7 +42,6 @@ public class ItemInfoServiceImpl implements ItemInfoService {
             JSONObject jsonItem = new JSONObject(itemJsonString);
             item.setName(jsonItem.getString(ITEM_NAME_KEY));
             item.setCalories(300);
-            item.setPrice(new BigDecimal("3.50"));
             item.setUpc(ITEM_UPC_KEY);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
