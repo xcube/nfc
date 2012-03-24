@@ -4,6 +4,7 @@
     "origin": "uk",
     "quantity": "2",
     "upc": "5019503012194",
+    "img" : "http://www.ocado.com/catalog/images-hires/53663011_H.jpg",
     "per100g": {
         "calories": "160",
         "protein": "18",
