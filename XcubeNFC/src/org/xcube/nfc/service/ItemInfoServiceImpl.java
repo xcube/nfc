@@ -34,7 +34,7 @@ public class ItemInfoServiceImpl implements ItemInfoService {
      * @param itemJsonString json response from service
      * @return item domain object
      */
-    public Item getItemDomain(String upc, String itemJsonString) {
+    public Item getItemDomain(String itemJsonString) {
 
         Item item = new Item();
         if (null == itemJsonString) {
@@ -46,7 +46,7 @@ public class ItemInfoServiceImpl implements ItemInfoService {
             item.setName(jsonItem.getString(ITEM_NAME_KEY));
             item.setCalories(300);
             item.setPrice(new BigDecimal("3.50"));
-            item.setUpc(upc);
+            item.setUpc(ITEM_UPC_KEY);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -77,6 +77,6 @@ public class ItemInfoServiceImpl implements ItemInfoService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return getItemDomain(upc, stringResponse);
+        return getItemDomain(stringResponse);
     }
 }
