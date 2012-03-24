@@ -4,6 +4,7 @@ package org.xcube.nfc;
 import java.math.BigDecimal;
 import java.util.Properties;
 
+import org.xcube.nfc.domain.Item;
 import org.xcube.nfc.domain.ItemInfo;
 import org.xcube.nfc.handler.NfcTagHandler;
 import org.xcube.nfc.handler.NfcTagHandlerImpl;
@@ -40,25 +41,31 @@ public class XcubeNFCActivity extends Activity {
         super.onCreate(savedInstanceState);
         setMainView();
         resolveIntent(getIntent());
-        ItemInfo item = getItemInfo();
+        ItemInfo itemInfo = getItemInfo();
+        Item item = createItem(itemInfo);
         addItem(item);
     }
 
-    private ItemInfo getItemInfo() {
+    private Item createItem(ItemInfo itemInfo) {
+    	Item item = new Item(itemInfo);
+    	if(!tagData.isEmpty()) {
+        	String price = tagData.getProperty(TagField.PRICE.getKey());
+        	item.setPrice(getPrice(price));
+    	}
+    	return item;
+	}
+
+	private ItemInfo getItemInfo() {
 		
 		 if(!tagData.isEmpty()) {
 	        	
-	        	String type = tagData.getProperty(TagField.TYPE.getKey());
 	        	String upc = tagData.getProperty(TagField.UPC.getKey());
-	        	String price = tagData.getProperty(TagField.PRICE.getKey());
 	        	if(null == upc) {
 	        		return null;
 	        	}
 	        	
 	        	try {
-	        		
-	        		ItemInfo item = itemInfoService.getItemInfo(upc);
-					return item;
+	        		return itemInfoService.getItemInfo(upc);
 				} catch (NumberFormatException e) {
 					Log.e(getClass().getName(), e.getMessage());
 				}
@@ -67,13 +74,12 @@ public class XcubeNFCActivity extends Activity {
 		return null;
 	}
 
-//	private BigDecimal getPrice(String price) {	
-//		price = (null == price || price.isEmpty()) ? "0" : price;
-//		return new BigDecimal(price);
-//	}
-//
-//	public void addItem(Item item) {
-	public void addItem(ItemInfo item) {
+	private BigDecimal getPrice(String price) {	
+		price = (null == price || price.isEmpty()) ? "0" : price;
+		return new BigDecimal(price);
+	}
+
+	public void addItem(Item item) {
 
 		if(null != item) {
 	        TableRow itemsTableRow = (TableRow) findViewById(R.id.items);
