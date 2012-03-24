@@ -6,6 +6,7 @@ XcubeNFC/libs
 XcubeNFC/gen
 XcubeNFC/.settings
 
+xcubeserver/Procfile2
 xcubeserver/.classpath
 xcubeserver/.project
 xcubeserver/.settings
