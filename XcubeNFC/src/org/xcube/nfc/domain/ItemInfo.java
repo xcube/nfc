@@ -5,7 +5,7 @@ package org.xcube.nfc.domain;
  * 
  * @author pete
  */
-public class Item {
+public class ItemInfo {
 
     private String upc;
     private String name;
@@ -125,10 +125,10 @@ public class Item {
     @Override
     public boolean equals(Object obj) {
 
-        if (!(obj instanceof Item)) {
+        if (!(obj instanceof ItemInfo)) {
             return false;
         }
-        Item other = (Item) obj;
+        ItemInfo other = (ItemInfo) obj;
         if (upc == null) {
             if (other.upc != null) {
                 return false;
@@ -142,7 +142,7 @@ public class Item {
     @Override
     public String toString() {
 
-        return String.format("Item [upc = %s, name = %s, type = %s, origin = %s, quantity = %s," 
+        return String.format("ItemInfo [upc = %s, name = %s, type = %s, origin = %s, quantity = %s," 
                 + " per100g = %s, each = %s]", upc, name, type, origin, quantity, per100g, each);
     }
 }
