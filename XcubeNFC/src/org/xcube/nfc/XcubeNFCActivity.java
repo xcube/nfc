@@ -13,8 +13,12 @@ import org.xcube.nfc.service.ItemInfoService;
 import org.xcube.nfc.service.ItemInfoServiceImpl;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.IntentFilter.MalformedMimeTypeException;
 import android.nfc.NfcAdapter;
+import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -30,20 +34,47 @@ public class XcubeNFCActivity extends Activity {
     private static final String PRICE_LABEL = "price";
 
     private ItemInfoService itemInfoService = new ItemInfoServiceImpl();
-    NfcTagHandler tagHandler = new NfcTagHandlerImpl();
+    private NfcTagHandler tagHandler = new NfcTagHandlerImpl();
 
+    private NfcAdapter nfcAdapter;
     private Properties tagData = new Properties();
+    private IntentFilter[] intentFilters;
+    private String[][] tagTechLists;
+    private PendingIntent pendingIntent;
     
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        itemInfoService.getItemInfo(null);
         super.onCreate(savedInstanceState);
+        
+        configureForegroundDispatch();
+        
         setMainView();
+        
         resolveIntent(getIntent());
         ItemInfo itemInfo = getItemInfo();
         Item item = createItem(itemInfo);
         addItem(item);
+    }
+
+	private void configureForegroundDispatch() {
+		pendingIntent = PendingIntent.getActivity(
+        	    this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        configureIntentFilter();
+        tagTechLists = new String[][] { new String[] { NfcF.class.getName() } };
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+	}
+    
+    public void configureIntentFilter() {
+    	IntentFilter intentFilter = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+    	try {
+            intentFilter.addDataType("text/*");    
+        }
+        catch (MalformedMimeTypeException e) {
+            throw new RuntimeException("fail", e);
+        }
+       intentFilters = new IntentFilter[] {intentFilter, };
+
     }
 
     private Item createItem(ItemInfo itemInfo) {
@@ -129,5 +160,30 @@ public class XcubeNFCActivity extends Activity {
             finish();
             return;
         }
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	if(null != nfcAdapter) {
+    		nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, tagTechLists);
+    	}
+    }
+    
+    @Override
+    protected void onNewIntent(Intent intent) {
+    	super.onNewIntent(intent);
+    	resolveIntent(intent);
+        ItemInfo itemInfo = getItemInfo();
+        Item item = createItem(itemInfo);
+        addItem(item);
+    }
+    
+    @Override
+    protected void onPause() {
+    	super.onPause();
+    	if(null != nfcAdapter) {
+    		nfcAdapter.disableForegroundDispatch(this);
+    	}
     }
 }

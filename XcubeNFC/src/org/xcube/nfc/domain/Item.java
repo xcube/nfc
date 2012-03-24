@@ -37,10 +37,16 @@ public class Item {
 	}
 	
 	public String getUpc() {
-		return info.getUpc();
+		if(null != info) {
+			return info.getUpc();
+		}
+		return "00000000";
 	}
 	
 	public String getName() {
-		return info.getName();
+		if(null != info) {
+			return info.getName();
+		}
+		return "No Name Set";
 	}
 }
