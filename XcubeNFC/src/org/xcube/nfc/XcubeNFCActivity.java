@@ -4,7 +4,7 @@ package org.xcube.nfc;
 import java.math.BigDecimal;
 import java.util.Properties;
 
-import org.xcube.nfc.domain.Item;
+import org.xcube.nfc.domain.ItemInfo;
 import org.xcube.nfc.handler.NfcTagHandler;
 import org.xcube.nfc.handler.NfcTagHandlerImpl;
 import org.xcube.nfc.handler.TagField;
@@ -36,15 +36,15 @@ public class XcubeNFCActivity extends Activity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        itemInfoService.getItem(null);
+        itemInfoService.getItemInfo(null);
         super.onCreate(savedInstanceState);
         setMainView();
         resolveIntent(getIntent());
-        Item item = getItem();
+        ItemInfo item = getItemInfo();
         addItem(item);
     }
 
-    private Item getItem() {
+    private ItemInfo getItemInfo() {
 		
 		 if(!tagData.isEmpty()) {
 	        	
@@ -56,7 +56,7 @@ public class XcubeNFCActivity extends Activity {
 	        	}
 	        	
 	        	try {
-	        		Item item = itemInfoService.getItem(upc);
+	        		ItemInfo item = itemInfoService.getItemInfo(upc);
 					return item;
 				} catch (NumberFormatException e) {
 					Log.e(getClass().getName(), e.getMessage());
@@ -66,7 +66,7 @@ public class XcubeNFCActivity extends Activity {
 		return null;
 	}
 
-	public void addItem(Item item) {
+	public void addItem(ItemInfo item) {
 
 		if(null != item) {
 	        TableRow itemsTableRow = (TableRow) findViewById(R.id.items);
