@@ -73,7 +73,6 @@ public class XcubeNFCActivity extends Activity {
 	        	
 	        itemsTableRow.addView(getTextView(item.getUpc()));
 	       	itemsTableRow.addView(getTextView(item.getName()));
-	       	itemsTableRow.addView(getTextView(String.valueOf(item.getCalories())));
 		}
     }
 
