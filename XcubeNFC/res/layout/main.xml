@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="1">
+
+    <!-- table heading -->
+    <TableRow>
+        <TextView
+            android:id="@+id/heading_count_label"
+            android:gravity="center"
+            android:padding="3dip" />
+        <TextView
+            android:layout_column="1"
+            android:id="@+id/heading_item_label"
+            android:gravity="center"
+            android:padding="3dip" />
+        <TextView 
+            android:id="@+id/heading_calories_label"
+            android:gravity="center"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/heading_price_label"
+            android:gravity="center"
+            android:padding="3dip" />
+    </TableRow>
+
+    <View
+        android:layout_height="2dip"
+        android:background="#FF909090" />
+
+    <!-- table data -->
+    <TableRow android:id="@+id/items">
+    </TableRow>
+</TableLayout>
