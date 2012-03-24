@@ -1,0 +1,23 @@
+{
+    "type": "processed/chicken",
+    "name": "12 Chicken Sweet Chilli Skewers",
+    "origin": "thailand",
+    "quantity": "12",
+    "upc": "5052319832228",
+    "per100g": {
+        "calories": "195",
+        "protein": "17.1",
+        "fat": "8.5",
+        "carbohydrate": "11.3",
+        "fibre": "0.5",
+        "salt": "1.1"
+    },
+    "each": {
+        "calories": "38",
+        "protein": "3.4",
+        "fat": "1.7",
+        "carbohydrate": "2.3",
+        "fibre": "0.1",
+        "salt": "0.2"
+    }
+}
