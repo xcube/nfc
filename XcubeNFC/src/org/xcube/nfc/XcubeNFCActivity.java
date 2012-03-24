@@ -1,16 +1,17 @@
 package org.xcube.nfc;
 
+
 import java.util.Map.Entry;
+import org.xcube.nfc.domain.Item;
+import org.xcube.nfc.service.ItemInfoService;
+import org.xcube.nfc.service.ItemInfoServiceImpl;
 import java.util.Properties;
 
-import org.xcube.nfc.domain.Item;
 import org.xcube.nfc.handler.NfcTagHandler;
 import org.xcube.nfc.handler.NfcTagHandlerImpl;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -25,11 +26,14 @@ public class XcubeNFCActivity extends Activity {
     private static final String ITEM_LABEL = "item";
     private static final String CALORIES_LABEL = "calories";
     private static final String PRICE_LABEL = "price";
+
+    private ItemInfoService itemInfoService = new ItemInfoServiceImpl();
     private Properties tagData = new Properties();
     
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        itemInfoService.getItem(null);
         super.onCreate(savedInstanceState);
         setMainView();
         resolveIntent(getIntent());

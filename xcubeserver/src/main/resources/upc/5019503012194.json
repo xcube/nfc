@@ -1,0 +1,23 @@
+{
+    "type": "processed/quorn/burger",
+    "name": "Quorn burgers",
+    "origin": "uk",
+    "quantity": "2",
+    "upc": "5019503012194",
+    "per100g": {
+        "calories": "160",
+        "protein": "18",
+        "fat": "6.0",
+        "carbohydrate": "7.0",
+        "fibre": "3.0",
+        "salt": "1.0"
+    },
+    "each": {
+        "calories": "128",
+        "protein": "14.4",
+        "fat": "4.8",
+        "carbohydrate": "5.6",
+        "fibre": "2.4",
+        "salt": "0.8"
+    }
+}
