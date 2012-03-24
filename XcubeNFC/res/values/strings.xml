@@ -23,6 +23,13 @@
     <string name="title_scanned_tag">New tag collected</string>
 
     <!-- Heading for the text of the content in the "my tag" feature. -->
-    <string name="tag_text">Text</string>
+    <string name="nutrition_calories">Calories</string>
+    <string name="nutrition_protein">Protein</string>
+    <string name="nutrition_carbs">Carbohydrate</string>
+    <string name="nutrition_fat">Fat</string>
+    <string name="nutrition_fibre">Fibre</string>
+    <string name="nutrition_salt">Salt</string>
+    <string name="item_image">Image of food item</string>
+
 
 </resources>

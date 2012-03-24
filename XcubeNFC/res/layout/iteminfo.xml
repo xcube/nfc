@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/iteminfo"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <!-- name -->
+    <TextView
+        android:id="@+id/item_name"
+        android:gravity="center"
+        android:padding="3dip" />
+
+    <!-- image -->
+	<ImageView android:id="@+id/item_image"
+	    android:contentDescription="@string/item_image" />
+
+    <!-- nutrition table -->
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:stretchColumns="1" >
+
+        <!-- table heading -->
+
+        <TableRow>
+            <TextView
+                android:text="@string/nutrition_calories"
+                android:gravity="center"
+                android:padding="3dip" />
+
+            <TextView
+                android:id="@+id/iteminfo_calories"
+                android:layout_column="1"
+                android:gravity="center"
+                android:padding="3dip" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="@string/nutrition_protein"
+                android:gravity="center"
+                android:padding="3dip" />
+
+            <TextView
+                android:id="@+id/iteminfo_protein"
+                android:layout_column="1"
+                android:gravity="center"
+                android:padding="3dip" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="@string/nutrition_carbs"
+                android:gravity="center"
+                android:padding="3dip" />
+
+            <TextView
+                android:id="@+id/iteminfo_carbs"
+                android:layout_column="1"
+                android:gravity="center"
+                android:padding="3dip" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="@string/nutrition_fat"
+                android:gravity="center"
+                android:padding="3dip" />
+
+            <TextView
+                android:id="@+id/iteminfo_fat"
+                android:layout_column="1"
+                android:gravity="center"
+                android:padding="3dip" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="@string/nutrition_fibre"
+                android:gravity="center"
+                android:padding="3dip" />
+
+            <TextView
+                android:id="@+id/iteminfo_fibre"
+                android:layout_column="1"
+                android:gravity="center"
+                android:padding="3dip" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="@string/nutrition_salt"
+                android:gravity="center"
+                android:padding="3dip" />
+
+            <TextView
+                android:id="@+id/iteminfo_salt"
+                android:layout_column="1"
+                android:gravity="center"
+                android:padding="3dip" />
+        </TableRow>        
+    </TableLayout>
+
+</LinearLayout>
