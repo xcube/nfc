@@ -33,11 +33,10 @@ public class XcubeNFCActivity extends Activity {
     NfcTagHandler tagHandler = new NfcTagHandlerImpl();
 
     private Properties tagData = new Properties();
-    
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        itemInfoService.getItemInfo(null);
         super.onCreate(savedInstanceState);
         setMainView();
         resolveIntent(getIntent());

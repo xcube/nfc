@@ -6,10 +6,12 @@ public class Item {
 
 	BigDecimal price;
 	Coordinates coordinates;
-	ItemInfo info;
+	ItemInfo info = new ItemInfo();
 	
 	public Item(ItemInfo itemInfo) {
-		this.info = itemInfo;
+	    if (null != itemInfo) {
+	        this.info = itemInfo;
+	    }
 	}
 
 	public BigDecimal getPrice() {

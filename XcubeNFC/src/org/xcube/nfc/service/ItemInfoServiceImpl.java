@@ -15,7 +15,7 @@ import org.xcube.nfc.util.StringUtil;
 
 public class ItemInfoServiceImpl implements ItemInfoService {
 
-    private static final String ITEM_INFO_ENDPOINT = "http://xcubeserver.herokuapp.com/xcubeserver/upc/";
+    private static final String ITEM_INFO_ENDPOINT = "http://xcubeserver.herokuapp.com/upc/";
 
     private static final String ITEM_IMG_KEY = "img";
     private static final String ITEM_TYPE_KEY = "type";
@@ -47,10 +47,14 @@ public class ItemInfoServiceImpl implements ItemInfoService {
     public ItemInfo getItemDomain(String itemJsonString) {
 
         ItemInfo itemInfo = new ItemInfo();
+        itemInfo.setPer100g(new NutritionInfo());
+        itemInfo.setEach(new NutritionInfo());
+
         if (null == itemJsonString) {
             return itemInfo;
         }
 
+        System.out.println("------- " + itemJsonString);
         try {
             /* main item properties */
             JSONObject jsonItem = new JSONObject(itemJsonString);
@@ -62,7 +66,7 @@ public class ItemInfoServiceImpl implements ItemInfoService {
             itemInfo.setQuantity(jsonItem.getString(ITEM_QUANTITY_KEY));
 
             /* nutrition info per 100 grams */
-            NutritionInfo per100g = new NutritionInfo();
+            NutritionInfo per100g = itemInfo.getPer100g();
             JSONObject jsonPer100g = jsonItem.getJSONObject(PER100G_KEY);
             per100g.setCalories(jsonPer100g.getString(NUTRITION_CALORIES_KEY));
             per100g.setProtein(jsonPer100g.getString(NUTRITION_PROTEIN_KEY));
@@ -73,7 +77,7 @@ public class ItemInfoServiceImpl implements ItemInfoService {
             itemInfo.setPer100g(per100g);
 
             /* nutrition info for the whole item */
-            NutritionInfo each = new NutritionInfo();
+            NutritionInfo each = itemInfo.getEach();
             JSONObject jsonEach = jsonItem.getJSONObject(EACH_KEY);
             each.setCalories(jsonEach.getString(NUTRITION_CALORIES_KEY));
             each.setProtein(jsonEach.getString(NUTRITION_PROTEIN_KEY));
