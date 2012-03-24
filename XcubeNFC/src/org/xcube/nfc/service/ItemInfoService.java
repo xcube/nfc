@@ -9,9 +9,9 @@ import org.xcube.nfc.domain.Item;
  */
 public interface ItemInfoService {
 
-    /**
-     * @param upc unique product code
-     * @return item domain object
-     */
-    Item getItem(String upc);
+	/**
+	 * @param upc unique product code
+	 * @return item domain object
+	 */
+	Item getItem(String upc);
 }
