@@ -38,6 +38,7 @@ public class XcubeNFCActivity extends Activity {
 
     private NfcAdapter nfcAdapter;
     private Properties tagData = new Properties();
+
     private IntentFilter[] intentFilters;
     private String[][] tagTechLists;
     private PendingIntent pendingIntent;
