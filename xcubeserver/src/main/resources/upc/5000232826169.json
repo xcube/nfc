@@ -4,6 +4,7 @@
     "origin": "1",
     "quantity": "500g",
     "upc": "5000232826169",
+    "img" : "",
     "per100g": {
         "calories": "359",
         "protein": "13.5",
