@@ -58,39 +58,57 @@ public class ItemInfoServiceImpl implements ItemInfoService {
         try {
             /* main item properties */
             JSONObject jsonItem = new JSONObject(itemJsonString);
-            itemInfo.setName(jsonItem.getString(ITEM_NAME_KEY));
-            itemInfo.setUpc(jsonItem.getString(ITEM_UPC_KEY));
-            itemInfo.setImg(jsonItem.getString(ITEM_IMG_KEY));
-            itemInfo.setType(jsonItem.getString(ITEM_TYPE_KEY));
-            itemInfo.setOrigin(jsonItem.getString(ITEM_ORIGIN_KEY));
-            itemInfo.setQuantity(jsonItem.getString(ITEM_QUANTITY_KEY));
+            itemInfo.setName(getJsonValue(jsonItem, ITEM_NAME_KEY));
+            itemInfo.setUpc(getJsonValue(jsonItem, ITEM_UPC_KEY));
+            itemInfo.setImg(getJsonValue(jsonItem, ITEM_IMG_KEY));
+            itemInfo.setType(getJsonValue(jsonItem, ITEM_TYPE_KEY));
+            itemInfo.setOrigin(getJsonValue(jsonItem, ITEM_ORIGIN_KEY));
+            itemInfo.setQuantity(getJsonValue(jsonItem, ITEM_QUANTITY_KEY));
 
             /* nutrition info per 100 grams */
-            NutritionInfo per100g = itemInfo.getPer100g();
-            JSONObject jsonPer100g = jsonItem.getJSONObject(PER100G_KEY);
-            per100g.setCalories(jsonPer100g.getString(NUTRITION_CALORIES_KEY));
-            per100g.setProtein(jsonPer100g.getString(NUTRITION_PROTEIN_KEY));
-            per100g.setFat(jsonPer100g.getString(NUTRITION_FAT_KEY));
-            per100g.setCarbohydrate(jsonPer100g.getString(NUTRITION_CARBOHYDRATE_KEY));
-            per100g.setFibre(jsonPer100g.getString(NUTRITION_FIBRE_KEY));
-            per100g.setSalt(jsonPer100g.getString(NUTRITION_SALT_KEY));
-            itemInfo.setPer100g(per100g);
+            if (jsonItem.has(PER100G_KEY)) {
+                NutritionInfo per100g = itemInfo.getPer100g();
+                JSONObject jsonPer100g = jsonItem.getJSONObject(PER100G_KEY);
+                per100g.setCalories(getJsonValue(jsonPer100g, NUTRITION_CALORIES_KEY));
+                per100g.setProtein(getJsonValue(jsonPer100g, NUTRITION_PROTEIN_KEY));
+                per100g.setFat(getJsonValue(jsonPer100g, NUTRITION_FAT_KEY));
+                per100g.setCarbohydrate(getJsonValue(jsonPer100g, NUTRITION_CARBOHYDRATE_KEY));
+                per100g.setFibre(getJsonValue(jsonPer100g, NUTRITION_FIBRE_KEY));
+                per100g.setSalt(getJsonValue(jsonPer100g, NUTRITION_SALT_KEY));
+            }
 
             /* nutrition info for the whole item */
-            NutritionInfo each = itemInfo.getEach();
-            JSONObject jsonEach = jsonItem.getJSONObject(EACH_KEY);
-            each.setCalories(jsonEach.getString(NUTRITION_CALORIES_KEY));
-            each.setProtein(jsonEach.getString(NUTRITION_PROTEIN_KEY));
-            each.setFat(jsonEach.getString(NUTRITION_FAT_KEY));
-            each.setCarbohydrate(jsonEach.getString(NUTRITION_CARBOHYDRATE_KEY));
-            each.setFibre(jsonEach.getString(NUTRITION_FIBRE_KEY));
-            each.setSalt(jsonEach.getString(NUTRITION_SALT_KEY));
-            itemInfo.setEach(each);
+            if (jsonItem.has(EACH_KEY)) {
+                NutritionInfo each = itemInfo.getEach();
+                JSONObject jsonEach = jsonItem.getJSONObject(EACH_KEY);
+                each.setCalories(getJsonValue(jsonEach, NUTRITION_CALORIES_KEY));
+                each.setProtein(getJsonValue(jsonEach, NUTRITION_PROTEIN_KEY));
+                each.setFat(getJsonValue(jsonEach, NUTRITION_FAT_KEY));
+                each.setCarbohydrate(getJsonValue(jsonEach, NUTRITION_CARBOHYDRATE_KEY));
+                each.setFibre(getJsonValue(jsonEach, NUTRITION_FIBRE_KEY));
+                each.setSalt(getJsonValue(jsonEach, NUTRITION_SALT_KEY));
+                itemInfo.setEach(each);
+            }
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return itemInfo;
+    }
+
+    /**
+     * @param jsonObject
+     * @param key
+     * @return empty string if key is not found or value for the key
+     * @throws JSONException
+     */
+    public String getJsonValue(JSONObject jsonObject, String key) throws JSONException {
+
+        if (jsonObject.has(key)) {
+            String value = jsonObject.getString(key);
+            return (null == value) ? "" : value;
+        }
+        return "";
     }
 
     /**
