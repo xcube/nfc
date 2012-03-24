@@ -17,6 +17,7 @@ package org.xcube.nfc.record;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Properties;
 
 import org.xcube.nfc.R;
 
@@ -54,6 +55,20 @@ public class TextRecord implements ParsedNdefRecord {
         return mText;
     }
 
+    @Override
+    public Properties getRecordData() {
+    	Properties properties = new Properties();
+    	for(String keyValuePair : getText().split("\n")){
+    		String[] keyValue = keyValuePair.split("=");
+    		if(keyValue != null && keyValue.length > 0) {
+    			if(!keyValue[0].isEmpty()) {
+    				properties.put(keyValue[0], keyValue[1]);
+    			}
+    		}
+    	}
+    	return properties;
+    }
+    
     /**
      * Returns the ISO/IANA language code associated with this text element.
      */
