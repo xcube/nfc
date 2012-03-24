@@ -3,3 +3,7 @@ XcubeNFC/bin
 xcubeserver/target
 XcubeNFC/libs
 XcubeNFC/gen
+
+xcubeserver/.classpath
+xcubeserver/.project
+xcubeserver/.settings
