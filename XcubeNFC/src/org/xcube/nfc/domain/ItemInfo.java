@@ -7,6 +7,7 @@ package org.xcube.nfc.domain;
  */
 public class ItemInfo {
 
+    private String img;
     private String upc;
     private String name;
     private String type;
@@ -14,6 +15,20 @@ public class ItemInfo {
     private String quantity;
     private NutritionInfo per100g;
     private NutritionInfo each;
+
+    /**
+     * @return item image
+     */
+    public String getImg() {
+        return img;
+    }
+
+    /**
+     * @param img item image
+     */
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     /**
      * @return universal product code (unique item identifier)
