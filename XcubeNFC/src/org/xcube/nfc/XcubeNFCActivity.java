@@ -4,11 +4,14 @@ package org.xcube.nfc;
 import java.math.BigDecimal;
 import java.util.Properties;
 
+import org.xcube.nfc.domain.Basket;
 import org.xcube.nfc.domain.Item;
 import org.xcube.nfc.domain.ItemInfo;
+import org.xcube.nfc.domain.ItemWithQuantity;
 import org.xcube.nfc.handler.NfcTagHandler;
 import org.xcube.nfc.handler.NfcTagHandlerImpl;
 import org.xcube.nfc.handler.TagField;
+import org.xcube.nfc.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import org.xcube.nfc.service.ItemInfoService;
 import org.xcube.nfc.service.ItemInfoServiceImpl;
 
@@ -22,6 +25,10 @@ import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -43,20 +50,28 @@ public class XcubeNFCActivity extends Activity {
     private String[][] tagTechLists;
     private PendingIntent pendingIntent;
     
+    private Basket inMemoryBasket = new Basket();
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         configureForegroundDispatch();
-        
         setMainView();
-        
-        resolveIntent(getIntent());
-        ItemInfo itemInfo = getItemInfo();
-        Item item = createItem(itemInfo);
-        addItem(item);
+        processIntent(null);
     }
+
+	private void processIntent(Intent intent) {
+		resolveIntent(intent != null ? intent : getIntent());
+        
+        Item itemInTag = getItem(getItemInfo());
+        if(null != itemInTag) {
+        	inMemoryBasket.addItem(itemInTag);
+        }
+        for(ItemWithQuantity item : inMemoryBasket.getItems()) {
+        	addItemToView(item);
+        }
+	}
 
 	private void configureForegroundDispatch() {
 		pendingIntent = PendingIntent.getActivity(
@@ -78,13 +93,14 @@ public class XcubeNFCActivity extends Activity {
 
     }
 
-    private Item createItem(ItemInfo itemInfo) {
-    	Item item = new Item(itemInfo);
+    private Item getItem(ItemInfo itemInfo) {
     	if(!tagData.isEmpty()) {
+    		Item item = new Item(itemInfo);
         	String price = tagData.getProperty(TagField.PRICE.getKey());
         	item.setPrice(getPrice(price));
+        	return item;
     	}
-    	return item;
+    	return null;
 	}
 
 	private ItemInfo getItemInfo() {
@@ -111,17 +127,28 @@ public class XcubeNFCActivity extends Activity {
 		return new BigDecimal(price);
 	}
 
-	public void addItem(Item item) {
+	public void addItemToView(ItemWithQuantity item) {
 
 		if(null != item) {
-	        TableRow itemsTableRow = (TableRow) findViewById(R.id.items);
-	        	
-	        itemsTableRow.addView(getTextView(item.getUpc()));
-	       	itemsTableRow.addView(getTextView(item.getName()));
+	        TableLayout table = (TableLayout) findViewById(R.id.basketTable);
+	        TableRow row = new TableRow(this);
+	        row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+	        row.addView(getImageView(item.getItem().getImageUrl()));
+	        row.addView(getTextView(item.getItem().getUpc()));
+	       	row.addView(getTextView(item.getItem().getName()));
+	       	table.addView(row);
 		}
     }
 
-    public TextView getTextView(String text) {
+    private View getImageView(String imageUrl) {
+		
+    	ImageView imageView = new ImageView(this);
+    	UrlImageViewHelper.setUrlDrawable(imageView, imageUrl);
+    	
+		return imageView;
+	}
+
+	public TextView getTextView(String text) {
 
         TextView textView = new TextView(this);
         textView.setText(text);
@@ -173,10 +200,7 @@ public class XcubeNFCActivity extends Activity {
     @Override
     protected void onNewIntent(Intent intent) {
     	super.onNewIntent(intent);
-    	resolveIntent(intent);
-        ItemInfo itemInfo = getItemInfo();
-        Item item = createItem(itemInfo);
-        addItem(item);
+    	processIntent(intent);
     }
     
     @Override

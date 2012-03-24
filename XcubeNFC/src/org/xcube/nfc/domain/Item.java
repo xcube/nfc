@@ -51,4 +51,11 @@ public class Item {
 		}
 		return "No Name Set";
 	}
+	
+	public String getImageUrl() {
+		if(null != info) {
+			return info.getImg();
+		}
+		return "";
+	}
 }
