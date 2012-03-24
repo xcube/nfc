@@ -22,6 +22,13 @@ public class ItemInfoServiceImpl implements ItemInfoService {
     private static final String ITEM_QUANTITY_KEY = "quantity";
     private static final String ITEM_UPC_KEY = "upc";
 
+    private static final String NUTRITION_CALORIES_KEY = "calories";
+    private static final String NUTRITION_PROTEIN_KEY = "protein";
+    private static final String NUTRITION_FAT_KEY = "fat";
+    private static final String NUTRITION_CARBOHYDRATE_KEY = "carbohydrate";
+    private static final String NUTRITION_FIBRE_KEY = "fibre";
+    private static final String NUTRITION_SALT_KEY = "salt";
+
     public Item getItem(String upc) {
         return httpRequest(upc);
     }
