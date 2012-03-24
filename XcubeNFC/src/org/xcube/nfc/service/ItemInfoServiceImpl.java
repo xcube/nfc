@@ -2,6 +2,7 @@ package org.xcube.nfc.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -25,40 +26,57 @@ public class ItemInfoServiceImpl implements ItemInfoService {
     private static final String ITEM_UPC_KEY = "upc";
 
     public Item getItem(String upc) {
-        httpRequest("50378289");
-        return null;
+        return httpRequest("50378289");
     }
 
-    public Item getItemDomain(String itemJsonString) {
+    /**
+     * @param upc unique product code
+     * @param itemJsonString json response from service
+     * @return item domain object
+     */
+    public Item getItemDomain(String upc, String itemJsonString) {
+
+        Item item = new Item();
+        if (null == itemJsonString) {
+            return item;
+        }
 
         try {
             JSONObject jsonItem = new JSONObject(itemJsonString);
-            Item item = new Item();
-            item.setName(jsonItem.getString(""));
+            item.setName(jsonItem.getString(ITEM_NAME_KEY));
+            item.setCalories(300);
+            item.setPrice(new BigDecimal("3.50"));
+            item.setUpc(upc);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return new Item();
+        return item;
     }
 
-    public void httpRequest(String upc) {
+    /**
+     * @param upc unique product code
+     * @return item that represents upc
+     */
+    public Item httpRequest(String upc) {
 
         /* end point url */
         String endPoint = ITEM_INFO_ENDPOINT + upc;
 
-        /* send and set response */
+        /* send and return response */
+        String stringResponse = null;
         try {
             HttpGet httpGet = new HttpGet(endPoint);
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpResponse httpResponse = httpClient.execute(httpGet);
             InputStream response = httpResponse.getEntity().getContent();
-            String stringRespose = StringUtil.readFromStream(response);
-            System.out.println(stringRespose);
+            stringResponse = StringUtil.readFromStream(response);
+            
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return getItemDomain(upc, stringResponse);
     }
 }
