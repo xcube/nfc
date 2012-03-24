@@ -25,6 +25,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.xcube.nfc" >
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 

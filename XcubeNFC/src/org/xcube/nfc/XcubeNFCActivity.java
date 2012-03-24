@@ -1,9 +1,14 @@
 package org.xcube.nfc;
 
+import java.util.logging.Logger;
+
 import org.xcube.nfc.domain.Item;
+import org.xcube.nfc.service.ItemInfoService;
+import org.xcube.nfc.service.ItemInfoServiceImpl;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -14,9 +19,12 @@ public class XcubeNFCActivity extends Activity {
     private static final String CALORIES_LABEL = "calories";
     private static final String PRICE_LABEL = "price";
 
+    private ItemInfoService itemInfoService = new ItemInfoServiceImpl();
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        itemInfoService.getItem(null);
         super.onCreate(savedInstanceState);
         setMainView();
         addItem(null);
