@@ -14,7 +14,7 @@ import org.xcube.nfc.util.StringUtil;
 
 public class ItemInfoServiceImpl implements ItemInfoService {
 
-    private static final String ITEM_INFO_ENDPOINT = "http://192.168.43.93:8080/xcubeserver/upc/";
+    private static final String ITEM_INFO_ENDPOINT = "http://xcubeserver.herokuapp.com/xcubeserver/upc/";
 
     private static final String ITEM_TYPE_KEY = "type";
     private static final String ITEM_NAME_KEY = "name";
