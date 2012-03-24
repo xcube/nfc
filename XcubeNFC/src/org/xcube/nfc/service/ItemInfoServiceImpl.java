@@ -41,7 +41,6 @@ public class ItemInfoServiceImpl implements ItemInfoService {
         try {
             JSONObject jsonItem = new JSONObject(itemJsonString);
             item.setName(jsonItem.getString(ITEM_NAME_KEY));
-            item.setCalories(300);
             item.setUpc(ITEM_UPC_KEY);
         } catch (JSONException e) {
             // TODO Auto-generated catch block

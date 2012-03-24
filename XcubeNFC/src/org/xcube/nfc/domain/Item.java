@@ -9,7 +9,6 @@ public class Item {
 
     private String upc;
     private String name;
-    private int calories;
     private NutritionInfo per100g;
     private NutritionInfo each;
 
@@ -39,20 +38,6 @@ public class Item {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * @return total amount of calories per item
-     */
-    public int getCalories() {
-        return calories;
-    }
-
-    /**
-     * @param caloires total amount of calories per item
-     */
-    public void setCalories(int caloires) {
-        this.calories = caloires;
     }
 
     /**
@@ -111,7 +96,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return String.format("Item [upc = %s, name = %s, calories = %d]", 
-                name, calories);
+        return String.format("Item [upc = %s, name = %s]", 
+                name);
     }
 }
