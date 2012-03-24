@@ -9,7 +9,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xcube.nfc.domain.Item;
+import org.xcube.nfc.domain.ItemInfo;
 import org.xcube.nfc.util.StringUtil;
 
 public class ItemInfoServiceImpl implements ItemInfoService {
@@ -22,7 +22,15 @@ public class ItemInfoServiceImpl implements ItemInfoService {
     private static final String ITEM_QUANTITY_KEY = "quantity";
     private static final String ITEM_UPC_KEY = "upc";
 
-    public Item getItem(String upc) {
+    private static final String NUTRITION_CALORIES_KEY = "calories";
+    private static final String NUTRITION_PROTEIN_KEY = "protein";
+    private static final String NUTRITION_FAT_KEY = "fat";
+    private static final String NUTRITION_CARBOHYDRATE_KEY = "carbohydrate";
+    private static final String NUTRITION_FIBRE_KEY = "fibre";
+    private static final String NUTRITION_SALT_KEY = "salt";
+
+    @Override
+    public ItemInfo getItemInfo(String upc) {
         return httpRequest(upc);
     }
 
@@ -31,9 +39,9 @@ public class ItemInfoServiceImpl implements ItemInfoService {
      * @param itemJsonString json response from service
      * @return item domain object
      */
-    public Item getItemDomain(String itemJsonString) {
+    public ItemInfo getItemDomain(String itemJsonString) {
 
-        Item item = new Item();
+        ItemInfo item = new ItemInfo();
         if (null == itemJsonString) {
             return item;
         }
@@ -53,7 +61,7 @@ public class ItemInfoServiceImpl implements ItemInfoService {
      * @param upc unique product code
      * @return item that represents upc
      */
-    public Item httpRequest(String upc) {
+    public ItemInfo httpRequest(String upc) {
 
         /* end point url */
         String endPoint = ITEM_INFO_ENDPOINT + upc;

@@ -5,10 +5,13 @@ package org.xcube.nfc.domain;
  * 
  * @author pete
  */
-public class Item {
+public class ItemInfo {
 
     private String upc;
     private String name;
+    private String type;
+    private String origin;
+    private String quantity;
     private NutritionInfo per100g;
     private NutritionInfo each;
 
@@ -55,6 +58,48 @@ public class Item {
     }
 
     /**
+     * @return item type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param type item type
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * @return item country of origin
+     */
+    public String getOrigin() {
+        return origin;
+    }
+
+    /**
+     * @param origin item country of origin
+     */
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    /**
+     * @return quantity of products in the item
+     */
+    public String getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * @param quantity number of products in the item
+     */
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    /**
      * @return nutrition information per item
      */
     public NutritionInfo getEach() {
@@ -80,10 +125,10 @@ public class Item {
     @Override
     public boolean equals(Object obj) {
 
-        if (!(obj instanceof Item)) {
+        if (!(obj instanceof ItemInfo)) {
             return false;
         }
-        Item other = (Item) obj;
+        ItemInfo other = (ItemInfo) obj;
         if (upc == null) {
             if (other.upc != null) {
                 return false;
@@ -96,7 +141,8 @@ public class Item {
 
     @Override
     public String toString() {
-        return String.format("Item [upc = %s, name = %s]", 
-                name);
+
+        return String.format("ItemInfo [upc = %s, name = %s, type = %s, origin = %s, quantity = %s," 
+                + " per100g = %s, each = %s]", upc, name, type, origin, quantity, per100g, each);
     }
 }
