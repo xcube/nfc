@@ -23,7 +23,7 @@ public class ItemInfoServiceImpl implements ItemInfoService {
     private static final String ITEM_UPC_KEY = "upc";
 
     public Item getItem(String upc) {
-        return httpRequest("50378289");
+        return httpRequest(upc);
     }
 
     /**
