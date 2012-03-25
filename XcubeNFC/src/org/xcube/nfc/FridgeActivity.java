@@ -128,7 +128,7 @@ public class FridgeActivity extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     // do something here when the element is clicked
-                    fridgeService.getItem(item.getItem().getUpc()).decQuantity();
+                    fridgeService.getFridge().removeItem(item.getItem());
                     onResume();
                 }
 
