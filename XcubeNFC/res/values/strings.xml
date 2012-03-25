@@ -32,5 +32,6 @@
     <string name="item_image">Image of food item</string>
     <string name="iteminfo_back">Back</string>
 	<string name="basket_checkout">Checkout</string>
-
+	<string name="basket">Basket</string>
+	<string name="fridge">Fridge</string>
 </resources>

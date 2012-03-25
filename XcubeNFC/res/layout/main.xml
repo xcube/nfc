@@ -3,33 +3,45 @@
     android:id="@+id/basket"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" android:background="@drawable/basket">
+    
+    <TextView   android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+	            android:id="@+id/basket_title"
+	            android:gravity="center"
+	            android:padding="3dip"
+	            android:textSize="25sp"
+	            android:text="@string/basket" />
     
 	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:shrinkColumns="1"
 	    android:id="@+id/basketTable">
-	
+		
 	    <!-- table heading -->
 	    <TableRow>
 	        <TextView
 	            android:id="@+id/heading_count_label"
 	            android:gravity="center"
-	            android:padding="3dip" />
+	            android:padding="3dip" 
+	            android:textColor="#000000"/>
 	        <TextView
 	            android:layout_column="1"
 	            android:id="@+id/heading_item_label"
 	            android:gravity="center"
-	            android:padding="3dip" />
+	            android:padding="3dip" 
+	            android:textColor="#000000"/>
 	        <TextView 
 	            android:id="@+id/heading_calories_label"
 	            android:gravity="center"
-	            android:padding="3dip" />
+	            android:padding="3dip" 
+	            android:textColor="#000000"/>
 	        <TextView
 	            android:id="@+id/heading_price_label"
 	            android:gravity="center"
-	            android:padding="3dip" />
+	            android:padding="3dip" 
+	            android:textColor="#000000"/>
 	    </TableRow>
 	
 	    <View

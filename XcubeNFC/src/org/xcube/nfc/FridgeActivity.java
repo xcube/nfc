@@ -12,6 +12,7 @@ import org.xcube.nfc.util.LayoutUtil;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -79,6 +80,7 @@ public class FridgeActivity extends Activity {
 
         TableRow tableRow = new TableRow(this);
         tableRow.setTag(TABLE_BODY_TAG);
+        tableRow.setBackgroundColor(Color.parseColor("#EDE8EA"));
         int quantity = item.getQuantity();
         tableRow.addView(getTextView(Integer.toString(quantity)));
         ItemInfo itemInfo = item.getItem().getInfo();
@@ -139,6 +141,7 @@ public class FridgeActivity extends Activity {
     public TextView getTextView(String text) {
 
         TextView textView = new TextView(this);
+        textView.setTextColor(Color.BLACK);
         textView.setText(text);
         return textView;
     }

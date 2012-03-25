@@ -24,6 +24,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
+import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
@@ -150,6 +151,7 @@ public class XcubeNFCActivity extends Activity {
 	        TableLayout table = (TableLayout) findViewById(R.id.basketTable);
 	        TableRow row = new TableRow(this);
 	        row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+	        row.setBackgroundColor(Color.parseColor("#EDE8EA"));
 	        row.setTag(BASKET_ROW_TAG);
 	        row.addView(getTextView("#"+item.getQuantity()));
 	       	row.addView(getTextView(item.getItem().getName()));
@@ -177,6 +179,7 @@ public class XcubeNFCActivity extends Activity {
 	public TextView getTextView(String text) {
 
         TextView textView = new TextView(this);
+        textView.setTextColor(Color.BLACK);
         textView.setText(text);
         return textView;
     }
