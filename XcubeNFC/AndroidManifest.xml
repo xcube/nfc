@@ -47,6 +47,16 @@
                 <data android:mimeType="text/*"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="FridgeActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name="ItemDetailActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
 <!-- 
         <activity
             android:name=".simulator.FakeTagsActivity"
