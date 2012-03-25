@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -59,20 +60,7 @@ public class FridgeActivity extends Activity {
         LayoutUtil.clearTaggedChildren((ViewGroup)findViewById(R.id.main_table), TABLE_BODY_TAG);
         setItems();
     }
-/*
-    private void clearItems() {
 
-        TableLayout mainTable = (TableLayout) findViewById(R.id.main_table);
-        int childCount = mainTable.getChildCount();
-        for (int x = 0; x < childCount; x++) {
-            View child = mainTable.getChildAt(x);
-            Object tag = child.getTag();
-            if (null != tag && ((String) tag).equals(TABLE_BODY_TAG)) {
-                mainTable.removeView(child);
-            }
-        }
-    }
-*/
     private void setMainView() {
 
         setContentView(R.layout.fridge);
@@ -97,28 +85,51 @@ public class FridgeActivity extends Activity {
         }
     }
 
-    public TableRow getItemRow(ItemWithQuantity item) {
+    public TableRow getItemRow(final ItemWithQuantity item) {
 
         TableRow tableRow = new TableRow(this);
         tableRow.setTag(TABLE_BODY_TAG);
         int quantity = item.getQuantity();
         tableRow.addView(getTextView(Integer.toString(quantity)));
         ItemInfo itemInfo = item.getItem().getInfo();
-        tableRow.addView(getTextView(itemInfo.getName()));
+        TextView nameTextView = getTextView(itemInfo.getName());
+        tableRow.addView(nameTextView);
         tableRow.addView(getTextView(itemInfo.getPer100g().getCalories()));
+
+        Button eatButton = new Button(this);
+        eatButton.setText("eat");
+        tableRow.addView(eatButton);
 
         final Intent itemDetailsIntent = new Intent(this, ItemDetailActivity.class);
         itemDetailsIntent.putExtra(ItemDetailActivity.ITEM_KEY, itemInfo.getUpc());
         itemDetailsIntent.putExtra(ItemDetailActivity.BACK_KEY, ItemDetailActivity.FROM_FRIDGE);
 
         /* add on click listener */
-        tableRow.setOnTouchListener(new OnTouchListener() {
+        nameTextView.setOnTouchListener(new OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     // do something here when the element is clicked
                     startActivity(itemDetailsIntent);
+                }
+
+                // true if the event was handled
+                // and should not be given further down to other views.
+                // if no other child view of this should get the event then return false
+                return true;
+            }
+        })
+;
+        /* eat button listener */
+        eatButton.setOnTouchListener(new OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // do something here when the element is clicked
+                    fridgeService.getItem(item.getItem().getUpc()).decQuantity();
+                    onResume();
                 }
 
                 // true if the event was handled
