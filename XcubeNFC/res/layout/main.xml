@@ -2,15 +2,11 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:stretchColumns="1"
+    android:scrollbars="vertical"
     android:id="@+id/basketTable">
 
     <!-- table heading -->
     <TableRow>
-        <TextView
-            android:id="@+id/heading_image_label"
-        	android:gravity="center"
-        	android:padding="3dip" />
         <TextView
             android:id="@+id/heading_count_label"
             android:gravity="center"

@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -35,10 +36,10 @@ import android.widget.TextView;
 public class XcubeNFCActivity extends Activity {
 	
 	private static final String TAG = "ViewTag";
-    private static final String COUNT_LABEL = "";
-    private static final String ITEM_LABEL = "item";
-    private static final String CALORIES_LABEL = "calories";
-    private static final String PRICE_LABEL = "price";
+    private static final String COUNT_LABEL = "Amount";
+    private static final String ITEM_LABEL = "Item";
+    private static final String CALORIES_LABEL = "Kcal";
+    private static final String PRICE_LABEL = "Price";
 
     private ItemInfoService itemInfoService = new ItemInfoServiceImpl();
     private NfcTagHandler tagHandler = new NfcTagHandlerImpl();
@@ -58,11 +59,11 @@ public class XcubeNFCActivity extends Activity {
         super.onCreate(savedInstanceState);
         configureForegroundDispatch();
         setMainView();
-        processIntent(null);
+        processIntent(getIntent());
     }
 
 	private void processIntent(Intent intent) {
-		resolveIntent(intent != null ? intent : getIntent());
+		resolveIntent(intent);
         
         Item itemInTag = getItem(getItemInfo());
         if(null != itemInTag) {
@@ -133,9 +134,10 @@ public class XcubeNFCActivity extends Activity {
 	        TableLayout table = (TableLayout) findViewById(R.id.basketTable);
 	        TableRow row = new TableRow(this);
 	        row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-	        row.addView(getImageView(item.getItem().getImageUrl()));
-	        row.addView(getTextView(item.getItem().getUpc()));
+	        row.addView(getTextView("#"+item.getQuantity()));
 	       	row.addView(getTextView(item.getItem().getName()));
+	       	row.addView(getTextView(item.getItem().getInfo().getPer100g().getCalories()));
+	       	row.addView(getTextView("£"+item.getItem().getPrice()));
 	       	table.addView(row);
 		}
     }
@@ -144,7 +146,7 @@ public class XcubeNFCActivity extends Activity {
 		
     	ImageView imageView = new ImageView(this);
     	UrlImageViewHelper.setUrlDrawable(imageView, imageUrl);
-    	
+    	imageView.setMaxHeight(100);
 		return imageView;
 	}
 

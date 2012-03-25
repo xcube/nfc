@@ -11,6 +11,7 @@ import org.xcube.nfc.service.FridgeService;
 import org.xcube.nfc.service.FridgeServiceImpl;
 import org.xcube.nfc.service.ItemInfoService;
 import org.xcube.nfc.service.ItemInfoServiceImpl;
+import org.xcube.nfc.util.LayoutUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,6 +33,8 @@ public class FridgeActivity extends Activity {
     private static final String COUNT_LABEL = "";
     private static final String ITEM_LABEL = "item";
     private static final String CALORIES_LABEL = "calories";
+
+    private static final String TABLE_BODY_TAG = "tableBody";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,22 +56,23 @@ public class FridgeActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        clearItems();
+        LayoutUtil.clearTaggedChildren((ViewGroup)findViewById(R.id.main_table), TABLE_BODY_TAG);
         setItems();
     }
-
+/*
     private void clearItems() {
 
-        // TODO
-//        TableLayout mainTable = (TableLayout) findViewById(R.id.main_table);
-//        int childrenCount = mainTable.getChildCount();
-//        if (childrenCount > 2) {
-//            for (int x = childrenCount; x > 0; --x) {
-//                mainTable.removeViewAt(x);
-//            }
-//        }
+        TableLayout mainTable = (TableLayout) findViewById(R.id.main_table);
+        int childCount = mainTable.getChildCount();
+        for (int x = 0; x < childCount; x++) {
+            View child = mainTable.getChildAt(x);
+            Object tag = child.getTag();
+            if (null != tag && ((String) tag).equals(TABLE_BODY_TAG)) {
+                mainTable.removeView(child);
+            }
+        }
     }
-
+*/
     private void setMainView() {
 
         setContentView(R.layout.fridge);
@@ -95,6 +100,7 @@ public class FridgeActivity extends Activity {
     public TableRow getItemRow(ItemWithQuantity item) {
 
         TableRow tableRow = new TableRow(this);
+        tableRow.setTag(TABLE_BODY_TAG);
         int quantity = item.getQuantity();
         tableRow.addView(getTextView(Integer.toString(quantity)));
         ItemInfo itemInfo = item.getItem().getInfo();
