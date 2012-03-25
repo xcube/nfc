@@ -36,6 +36,10 @@ public class NutritionActivity extends Activity {
         NutritionTotals nutritionTotals = nutritionService.getTotal();
         mainTable.addView(getTableRow("Calories", nutritionTotals.getCalories().toString()));
         mainTable.addView(getTableRow("Carbohydrates", nutritionTotals.getCarbohydrate().toString()));
+        mainTable.addView(getTableRow("Fat", nutritionTotals.getFat().toString()));
+        mainTable.addView(getTableRow("Fibre", nutritionTotals.getFibre().toString()));
+        mainTable.addView(getTableRow("Protein", nutritionTotals.getProtein().toString()));
+        mainTable.addView(getTableRow("Salt", nutritionTotals.getSalt().toString()));
     }
 
     private TableRow getTableRow(String key, String value) {

@@ -13,37 +13,38 @@ public class NutritionTotals {
     
     public void addItem(Item item) {
     	ItemInfo info = item.getInfo();
-    	
     	if (null != info.getPer100g()) {
     		NutritionInfo n = info.getPer100g();
     		
-    		if ((null != n.getCalories()) && !"".equals(n.getCalories())) {
-    			calories.add(new BigDecimal(n.getCalories()));
+    		if ((null != n.getCalories()) && !n.getCalories().isEmpty()) {
+    		    BigDecimal c = new BigDecimal(n.getCalories());
+    			calories = calories.add(c);
     		}
     		
     		if ((null != n.getProtein()) && !"".equals(n.getProtein())) {
-    			protein.add(new BigDecimal(n.getCalories()));
+    			protein = protein.add(new BigDecimal(n.getProtein()));
     		}
     		
     		if ((null != n.getFat()) && !"".equals(n.getFat())) {
-    			fat.add(new BigDecimal(n.getCalories()));
+    			fat =fat.add(new BigDecimal(n.getFat()));
     		}
     		
     		if ((null != n.getCarbohydrate()) && !"".equals(n.getCarbohydrate())) {
-    			carbohydrate.add(new BigDecimal(n.getCalories()));
+    			carbohydrate = carbohydrate.add(new BigDecimal(n.getCarbohydrate()));
     		}
     		
     		if ((null != n.getFibre()) && !"".equals(n.getFibre())) {
-    			fibre.add(new BigDecimal(n.getCalories()));
+    			fibre = fibre.add(new BigDecimal(n.getFibre()));
     		}
     		
     		if ((null != n.getSalt()) && !"".equals(n.getSalt())) {
-    			salt.add(new BigDecimal(n.getCalories()));
+    			salt = salt.add(new BigDecimal(n.getSalt()));
     		}
     	}
     }
 
     public BigDecimal getCalories() {
+        System.out.println("--------- getting calories " + calories.toString());
         return calories;
     }
 
