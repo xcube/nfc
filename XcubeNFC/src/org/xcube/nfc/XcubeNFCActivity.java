@@ -94,8 +94,6 @@ public class XcubeNFCActivity extends Activity {
 
 	private void processIntent(Intent intent) {
 		if(resolveIntent(intent)) {
-           
-    		System.out.println("------ action === " + intent.getAction());
             Item itemInTag = getItem(getItemInfo());
             if(null != itemInTag) {
             	basketService.addItemToBasket(itemInTag);
