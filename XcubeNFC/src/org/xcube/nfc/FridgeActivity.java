@@ -32,6 +32,8 @@ public class FridgeActivity extends Activity {
     private static final String ITEM_LABEL = "item";
     private static final String CALORIES_LABEL = "calories";
 
+    private static final String TABLE_BODY_TAG = "tableBody";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -58,14 +60,15 @@ public class FridgeActivity extends Activity {
 
     private void clearItems() {
 
-        // TODO
-//        TableLayout mainTable = (TableLayout) findViewById(R.id.main_table);
-//        int childrenCount = mainTable.getChildCount();
-//        if (childrenCount > 2) {
-//            for (int x = childrenCount; x > 0; --x) {
-//                mainTable.removeViewAt(x);
-//            }
-//        }
+        TableLayout mainTable = (TableLayout) findViewById(R.id.main_table);
+        int childCount = mainTable.getChildCount();
+        for (int x = 0; x < childCount; x++) {
+            View child = mainTable.getChildAt(x);
+            Object tag = child.getTag();
+            if (null != tag && ((String) tag).equals(TABLE_BODY_TAG)) {
+                mainTable.removeView(child);
+            }
+        }
     }
 
     private void setMainView() {
@@ -95,6 +98,7 @@ public class FridgeActivity extends Activity {
     public TableRow getItemRow(ItemWithQuantity item) {
 
         TableRow tableRow = new TableRow(this);
+        tableRow.setTag(TABLE_BODY_TAG);
         int quantity = item.getQuantity();
         tableRow.addView(getTextView(Integer.toString(quantity)));
         ItemInfo itemInfo = item.getItem().getInfo();
