@@ -10,9 +10,11 @@ public class LayoutUtil {
         int childCount = parentView.getChildCount();
         for (int x = 0; x < childCount; x++) {
             View child = parentView.getChildAt(x);
-            Object childTag = child.getTag();
-            if (null != childTag && childTag.equals(tag)) {
-                parentView.removeView(child);
+            if(null != child) {
+	            Object childTag = child.getTag();
+	            if (null != childTag && childTag.equals(tag)) {
+	                parentView.removeView(child);
+	            }
             }
         }
     }

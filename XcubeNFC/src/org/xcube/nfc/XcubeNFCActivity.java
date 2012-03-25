@@ -12,8 +12,11 @@ import org.xcube.nfc.handler.NfcTagHandler;
 import org.xcube.nfc.handler.NfcTagHandlerImpl;
 import org.xcube.nfc.handler.TagField;
 import org.xcube.nfc.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import org.xcube.nfc.service.BasketService;
+import org.xcube.nfc.service.BasketServiceImpl;
 import org.xcube.nfc.service.ItemInfoService;
 import org.xcube.nfc.service.ItemInfoServiceImpl;
+import org.xcube.nfc.util.LayoutUtil;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -26,21 +29,23 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 public class XcubeNFCActivity extends Activity {
 	
+	private static final String BASKET_ROW_TAG = "basket_row";
 	private static final String TAG = "ViewTag";
     private static final String COUNT_LABEL = "Amount";
     private static final String ITEM_LABEL = "Item";
     private static final String CALORIES_LABEL = "Kcal";
     private static final String PRICE_LABEL = "Price";
 
+    private BasketService basketService = new BasketServiceImpl();
     private ItemInfoService itemInfoService = new ItemInfoServiceImpl();
     private NfcTagHandler tagHandler = new NfcTagHandlerImpl();
 
@@ -50,8 +55,6 @@ public class XcubeNFCActivity extends Activity {
     private IntentFilter[] intentFilters;
     private String[][] tagTechLists;
     private PendingIntent pendingIntent;
-    
-    private Basket inMemoryBasket = new Basket();
     
     /** Called when the activity is first created. */
     @Override
@@ -67,9 +70,11 @@ public class XcubeNFCActivity extends Activity {
         
         Item itemInTag = getItem(getItemInfo());
         if(null != itemInTag) {
-        	inMemoryBasket.addItem(itemInTag);
+        	basketService.addItemToBasket(itemInTag);
         }
-        for(ItemWithQuantity item : inMemoryBasket.getItems()) {
+        LayoutUtil.clearTaggedChildren(
+        		(ViewGroup)findViewById(R.id.basketTable), BASKET_ROW_TAG);
+        for(ItemWithQuantity item : basketService.getItems()) {
         	addItemToView(item);
         }
 	}
@@ -134,6 +139,7 @@ public class XcubeNFCActivity extends Activity {
 	        TableLayout table = (TableLayout) findViewById(R.id.basketTable);
 	        TableRow row = new TableRow(this);
 	        row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+	        row.setTag(BASKET_ROW_TAG);
 	        row.addView(getTextView("#"+item.getQuantity()));
 	       	row.addView(getTextView(item.getItem().getName()));
 	       	row.addView(getTextView(item.getItem().getInfo().getPer100g().getCalories()));
