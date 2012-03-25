@@ -31,6 +31,6 @@
     <string name="nutrition_salt">Salt</string>
     <string name="item_image">Image of food item</string>
     <string name="iteminfo_back">Back</string>
-
+	<string name="basket_checkout">Checkout</string>
 
 </resources>

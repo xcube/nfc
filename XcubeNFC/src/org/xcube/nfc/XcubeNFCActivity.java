@@ -4,7 +4,6 @@ package org.xcube.nfc;
 import java.math.BigDecimal;
 import java.util.Properties;
 
-import org.xcube.nfc.domain.Basket;
 import org.xcube.nfc.domain.Item;
 import org.xcube.nfc.domain.ItemInfo;
 import org.xcube.nfc.domain.ItemWithQuantity;
@@ -14,6 +13,8 @@ import org.xcube.nfc.handler.TagField;
 import org.xcube.nfc.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import org.xcube.nfc.service.BasketService;
 import org.xcube.nfc.service.BasketServiceImpl;
+import org.xcube.nfc.service.FridgeService;
+import org.xcube.nfc.service.FridgeServiceImpl;
 import org.xcube.nfc.service.ItemInfoService;
 import org.xcube.nfc.service.ItemInfoServiceImpl;
 import org.xcube.nfc.util.LayoutUtil;
@@ -28,9 +29,12 @@ import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -45,6 +49,7 @@ public class XcubeNFCActivity extends Activity {
     private static final String CALORIES_LABEL = "Kcal";
     private static final String PRICE_LABEL = "Price";
 
+    private FridgeService fridgeService = new FridgeServiceImpl();
     private BasketService basketService = new BasketServiceImpl();
     private ItemInfoService itemInfoService = new ItemInfoServiceImpl();
     private NfcTagHandler tagHandler = new NfcTagHandlerImpl();
@@ -63,6 +68,28 @@ public class XcubeNFCActivity extends Activity {
         configureForegroundDispatch();
         setMainView();
         processIntent(getIntent());
+        
+        final Intent fridgeIntent = new Intent(this,
+                FridgeActivity.class);
+        
+        Button checkoutButton = (Button)findViewById(R.id.basket_checkout);
+        checkoutButton.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				 if (event.getAction() == MotionEvent.ACTION_UP) {
+	                    // do something here when the element is clicked
+	                    fridgeService.checkout(basketService.getBasket());
+	                    basketService.clearBasket();
+	                    startActivity(fridgeIntent);
+	                }
+
+	                // true if the event was handled
+	                // and should not be given further down to other views.
+	                // if no other child view of this should get the event then return false
+	                return true;
+			}
+		});
     }
 
 	private void processIntent(Intent intent) {
@@ -144,6 +171,7 @@ public class XcubeNFCActivity extends Activity {
 	       	row.addView(getTextView(item.getItem().getName()));
 	       	row.addView(getTextView(item.getItem().getInfo().getPer100g().getCalories()));
 	       	row.addView(getTextView("£"+item.getItem().getPrice()));
+	       	row.addView(getButton());
 	       	table.addView(row);
 		}
     }
@@ -155,6 +183,12 @@ public class XcubeNFCActivity extends Activity {
     	imageView.setMaxHeight(100);
 		return imageView;
 	}
+    
+    private Button getButton() {
+    	Button button = new Button(this);
+    	button.setText("-");
+    	return button;
+    }
 
 	public TextView getTextView(String text) {
 
@@ -203,6 +237,8 @@ public class XcubeNFCActivity extends Activity {
     	if(null != nfcAdapter) {
     		nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, tagTechLists);
     	}
+
+    	processIntent(getIntent());
     }
     
     @Override
