@@ -54,6 +54,7 @@ public class NutritionActivity extends Activity {
         textKey.setTextSize(20);
         TextView textValue = new TextView(this);
         textValue.setGravity(Gravity.RIGHT);
+        textValue.setPadding(0, 0, 10, 0);
         textValue.setTextSize(20);
         textValue.setText(value);
         textValue.setTextColor(Color.BLACK);
