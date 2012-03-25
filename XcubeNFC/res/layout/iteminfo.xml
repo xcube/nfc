@@ -98,4 +98,7 @@
         </TableRow>        
     </TableLayout>
 
+    <Button 
+        android:id="@+id/iteminfo_back" 
+        android:text="@string/iteminfo_back" />
 </LinearLayout>
