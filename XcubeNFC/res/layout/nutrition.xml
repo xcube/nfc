@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/nutrition"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_table"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:stretchColumns="1">
 
-    <!-- name -->
-    <TextView
-        android:id="@+id/main_label"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize = "25sp"
-        android:gravity="center"
-        android:padding="3dip" />
-</LinearLayout>
+</TableLayout>
