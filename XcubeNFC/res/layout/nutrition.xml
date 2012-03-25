@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_table"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nutritional_screen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:stretchColumns="1">
+    android:orientation="vertical" android:background="@drawable/nutrition2">
+    
+    <TextView   android:layout_width="fill_parent"
+        		android:layout_height="wrap_content"
+	            android:id="@+id/nutrition_title"
+	            android:gravity="center"
+	            android:padding="3dip"
+	            android:textSize="25sp"
+	            android:text="@string/nutrition"
+	            android:textColor="#000000" />
 
-</TableLayout>
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/main_table"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:stretchColumns="*">
+	
+	</TableLayout>
+</LinearLayout>

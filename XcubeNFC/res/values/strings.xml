@@ -34,4 +34,6 @@
 	<string name="basket_checkout">Checkout</string>
 	<string name="basket">Basket</string>
 	<string name="fridge">Fridge</string>
+	<string name="nutrition">Nutritional</string>
+	
 </resources>
