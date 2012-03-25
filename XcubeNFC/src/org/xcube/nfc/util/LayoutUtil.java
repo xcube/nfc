@@ -8,7 +8,7 @@ public class LayoutUtil {
 	public static void clearTaggedChildren(ViewGroup parentView, Object tag) {
 
         int childCount = parentView.getChildCount();
-        for (int x = 0; x < childCount; x++) {
+        for (int x = 1; x <= childCount; x++) {
             View child = parentView.getChildAt(x);
             if(null != child) {
 	            Object childTag = child.getTag();

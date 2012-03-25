@@ -66,46 +66,30 @@ public class XcubeNFCActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configureForegroundDispatch();
+//        clearTableRows();
         setMainView();
         processIntent(getIntent());
         
-        final Intent fridgeIntent = new Intent(this,
-                FridgeActivity.class);
-        
-        Button checkoutButton = (Button)findViewById(R.id.basket_checkout);
-        checkoutButton.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				 if (event.getAction() == MotionEvent.ACTION_UP) {
-	                    // do something here when the element is clicked
-	                    fridgeService.checkout(basketService.getBasket());
-	                    basketService.clearBasket();
-	                    startActivity(fridgeIntent);
-	                }
-
-	                // true if the event was handled
-	                // and should not be given further down to other views.
-	                // if no other child view of this should get the event then return false
-	                return true;
-			}
-		});
     }
 
 	private void processIntent(Intent intent) {
+		clearTableRows();
+        setMainView();
 		if(resolveIntent(intent)) {
-           
+            
     		System.out.println("------ action === " + intent.getAction());
             Item itemInTag = getItem(getItemInfo());
             if(null != itemInTag) {
             	basketService.addItemToBasket(itemInTag);
             }
-            LayoutUtil.clearTaggedChildren(
-            		(ViewGroup)findViewById(R.id.basketTable), BASKET_ROW_TAG);
-            for(ItemWithQuantity item : basketService.getItems()) {
-            	addItemToView(item);
-            }
+//            LayoutUtil.clearTaggedChildren(
+//            		(ViewGroup)findViewById(R.id.basketTable), BASKET_ROW_TAG);
+            
 		}
+		System.out.println("======= Elements in basket : "+basketService.getItems().size());
+        for(ItemWithQuantity item : basketService.getItems()) {
+        	addItemToView(item);
+        }
 	}
 
 	private void configureForegroundDispatch() {
@@ -172,7 +156,7 @@ public class XcubeNFCActivity extends Activity {
 	        row.addView(getTextView("#"+item.getQuantity()));
 	       	row.addView(getTextView(item.getItem().getName()));
 	       	row.addView(getTextView(item.getItem().getInfo().getPer100g().getCalories()));
-	       	row.addView(getTextView("�"+item.getItem().getPrice()));
+	       	row.addView(getTextView("\u00A3"+item.getItem().getPrice()));
 	       	row.addView(getButton());
 	       	table.addView(row);
 		}
@@ -214,6 +198,28 @@ public class XcubeNFCActivity extends Activity {
 
         TextView priceLabel = (TextView) findViewById(R.id.heading_price_label);
         priceLabel.setText(PRICE_LABEL);
+        
+        final Intent fridgeIntent = new Intent(this,
+                FridgeActivity.class);
+        
+        Button checkoutButton = (Button)findViewById(R.id.basket_checkout);
+        checkoutButton.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				 if (event.getAction() == MotionEvent.ACTION_UP) {
+	                    // do something here when the element is clicked
+	                    fridgeService.checkout(basketService.getBasket());
+	                    basketService.clearBasket();
+	                    startActivity(fridgeIntent);
+	                }
+
+	                // true if the event was handled
+	                // and should not be given further down to other views.
+	                // if no other child view of this should get the event then return false
+	                return true;
+			}
+		});
     }
     
     boolean resolveIntent(Intent intent) {
@@ -237,13 +243,21 @@ public class XcubeNFCActivity extends Activity {
     	if(null != nfcAdapter) {
     		nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, tagTechLists);
     	}
-
+//    	clearTableRows();
+//    	setMainView();
     	processIntent(getIntent());
     }
+
+	private void clearTableRows() {
+		ViewGroup basketTable = (ViewGroup)findViewById(R.id.basketTable);
+    	basketTable.removeAllViews();
+	}
     
     @Override
     protected void onNewIntent(Intent intent) {
     	super.onNewIntent(intent);
+//    	clearTableRows();
+//    	setMainView();
     	processIntent(intent);
     }
     
