@@ -110,6 +110,7 @@ public class FridgeActivity extends Activity {
         tableRow.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
         tableRow.setTag(TABLE_BODY_TAG);
         tableRow.setBackgroundColor(Color.parseColor("#EDE8EA"));
+        tableRow.setAlpha(.85f);
         int quantity = item.getQuantity();
         tableRow.addView(getTextView("#" + Integer.toString(quantity)));
         ItemInfo itemInfo = item.getItem().getInfo();

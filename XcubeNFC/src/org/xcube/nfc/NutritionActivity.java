@@ -5,9 +5,12 @@ import org.xcube.nfc.service.NutritionService;
 import org.xcube.nfc.service.NutritionServiceImpl;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import android.view.Gravity;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -44,10 +47,16 @@ public class NutritionActivity extends Activity {
 
     private TableRow getTableRow(String key, String value) {
         TableRow tableRow = new TableRow(this);
+        tableRow.setPadding(3, 3, 0, 3);
         TextView textKey = new TextView(this);
+        textKey.setTextColor(Color.BLACK);
         textKey.setText(key);
+        textKey.setTextSize(20);
         TextView textValue = new TextView(this);
+        textValue.setGravity(Gravity.RIGHT);
+        textValue.setTextSize(20);
         textValue.setText(value);
+        textValue.setTextColor(Color.BLACK);
         tableRow.addView(textKey);
         tableRow.addView(textValue);
         

@@ -152,11 +152,12 @@ public class XcubeNFCActivity extends Activity {
 	        TableRow row = new TableRow(this);
 	        row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 	        row.setBackgroundColor(Color.parseColor("#EDE8EA"));
+	        row.setAlpha(.85f);
 	        row.setTag(BASKET_ROW_TAG);
 	        row.addView(getTextView("#"+item.getQuantity()));
 	       	row.addView(getTextView(item.getItem().getName()));
 	       	row.addView(getTextView(item.getItem().getInfo().getPer100g().getCalories()));
-	       	row.addView(getTextView("\u00A3"+item.getItem().getPrice()));
+	       	row.addView(getTextView("\u00A3"+item.getItem().getPrice().divide(BigDecimal.valueOf(100))));
 	       	row.addView(getButton());
 	       	table.addView(row);
 		}
@@ -190,15 +191,19 @@ public class XcubeNFCActivity extends Activity {
 
         TextView countLabel = (TextView) findViewById(R.id.heading_count_label);
         countLabel.setText(COUNT_LABEL);
+        countLabel.setTextSize(18);
 
         TextView itemLabel = (TextView) findViewById(R.id.heading_item_label);
+        itemLabel.setTextSize(18);
         itemLabel.setText(ITEM_LABEL);
 
         TextView caloriesLabel = (TextView) findViewById(R.id.heading_calories_label);
         caloriesLabel.setText(CALORIES_LABEL);
+        caloriesLabel.setTextSize(18);
 
         TextView priceLabel = (TextView) findViewById(R.id.heading_price_label);
         priceLabel.setText(PRICE_LABEL);
+        priceLabel.setTextSize(18);
         
         final Intent fridgeIntent = new Intent(this,
                 FridgeActivity.class);
