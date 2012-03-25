@@ -1,9 +1,11 @@
 package org.xcube.nfc;
 
 import org.xcube.nfc.domain.Item;
+import org.xcube.nfc.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ItemDetailActivity extends Activity {
@@ -18,11 +20,19 @@ public class ItemDetailActivity extends Activity {
 		setItem(item);
 	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Item item = (Item) getIntent().getExtras().get(ITEM_KEY);
+		setItem(item);
+	}
+	
 	public void setItem(Item item) {
 		TextView title = (TextView) findViewById(R.id.item_name);
 		title.setText(item.getInfo().getName());
 		
-		
+		ImageView image = (ImageView) findViewById(R.id.item_image);
+		UrlImageViewHelper.setUrlDrawable(image, item.getImageUrl());
 		
 		TextView calories = (TextView) findViewById(R.id.iteminfo_calories);
 		calories.setText(item.getInfo().getName());
