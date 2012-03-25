@@ -62,8 +62,12 @@ public class ItemsWithQuantities {
 	}
 	
 	protected ItemWithQuantity find(Item item) {
+		return findByUpc(item.getUpc());
+	}
+	
+	public ItemWithQuantity findByUpc(String upc) {
 		for (ItemWithQuantity iq : items) {
-			if (iq.getItem().getUpc().equals(item.getUpc())) {
+			if (iq.getItem().getUpc().equals(upc)) {
 				return iq;
 			}
 		}

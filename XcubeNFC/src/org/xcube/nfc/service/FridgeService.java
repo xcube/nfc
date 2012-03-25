@@ -2,6 +2,7 @@ package org.xcube.nfc.service;
 
 import org.xcube.nfc.domain.Basket;
 import org.xcube.nfc.domain.Fridge;
+import org.xcube.nfc.domain.ItemWithQuantity;
 
 /**
  * Simulates persistence, so basket can add itself to the fridge, 
@@ -14,4 +15,6 @@ public interface FridgeService {
     void checkout(Basket basket);
 
     Fridge getFridge();
+    
+    ItemWithQuantity getItem(String upc);
 }

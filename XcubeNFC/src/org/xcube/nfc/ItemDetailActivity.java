@@ -1,7 +1,10 @@
 package org.xcube.nfc;
 
 import org.xcube.nfc.domain.Item;
+import org.xcube.nfc.domain.ItemWithQuantity;
 import org.xcube.nfc.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import org.xcube.nfc.service.FridgeService;
+import org.xcube.nfc.service.FridgeServiceImpl;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,23 +20,31 @@ public class ItemDetailActivity extends Activity implements View.OnClickListener
 	public static final String FROM_FRIDGE = "fridge";
 	public static final String FROM_BASKET = "basket";
 	
+	private FridgeService fridgeService = new FridgeServiceImpl();
+	
 	private String from = FROM_BASKET;
 	
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		setContentView(R.layout.iteminfo);
-		Item item = (Item) getIntent().getExtras().get(ITEM_KEY);
+		String upc = getIntent().getExtras().getString(ITEM_KEY);
+		ItemWithQuantity iq = fridgeService.getItem(upc);
+		if (null != iq) {
+			setItem(iq.getItem());
+		}
 		from = getIntent().getExtras().getString(BACK_KEY);
-		setItem(item);
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
-		Item item = (Item) getIntent().getExtras().get(ITEM_KEY);
+		String upc = getIntent().getExtras().getString(ITEM_KEY);
+		ItemWithQuantity iq = fridgeService.getItem(upc);
+		if (null != iq) {
+			setItem(iq.getItem());
+		}
 		from = getIntent().getExtras().getString(BACK_KEY);
-		setItem(item);
 	}
 	
 	public void setItem(Item item) {
