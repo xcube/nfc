@@ -49,7 +49,7 @@ public class ItemsWithQuantities {
 			
 		} else {
 			existingItem.decQuantity();
-			if (0 == existingItem.getQuantity()) {
+			if (0 >= existingItem.getQuantity()) {
 				items.remove(existingItem);
 			}
 		}
