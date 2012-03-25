@@ -42,4 +42,29 @@ public class NutritionTotals {
     		}
     	}
     }
+
+    public BigDecimal getCalories() {
+        return calories;
+    }
+
+    public BigDecimal getProtein() {
+        return protein;
+    }
+
+    public BigDecimal getFat() {
+        return fat;
+    }
+
+    public BigDecimal getCarbohydrate() {
+        return carbohydrate;
+    }
+
+    public BigDecimal getFibre() {
+        return fibre;
+    }
+
+    public BigDecimal getSalt() {
+        return salt;
+    }
+    
 }
