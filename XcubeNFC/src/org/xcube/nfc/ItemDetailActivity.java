@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,9 @@ public class ItemDetailActivity extends Activity implements View.OnClickListener
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		setContentView(R.layout.iteminfo);
+		Button btn = (Button) findViewById(R.id.iteminfo_back);
+		btn.setOnClickListener(this);
+		
 		String upc = getIntent().getExtras().getString(ITEM_KEY);
 		ItemWithQuantity iq = fridgeService.getItem(upc);
 		if (null != iq) {
@@ -54,24 +58,25 @@ public class ItemDetailActivity extends Activity implements View.OnClickListener
 		ImageView image = (ImageView) findViewById(R.id.item_image);
 		UrlImageViewHelper.setUrlDrawable(image, item.getImageUrl());
 		
-		TextView calories = (TextView) findViewById(R.id.iteminfo_calories);
-		calories.setText(item.getInfo().getName());
-		
-		TextView protein = (TextView) findViewById(R.id.iteminfo_protein);
-		protein.setText(item.getInfo().getName());
-		
-		TextView carbs = (TextView) findViewById(R.id.iteminfo_carbs);
-		carbs.setText(item.getInfo().getName());
-		
-		TextView fat = (TextView) findViewById(R.id.iteminfo_fat);
-		fat.setText(item.getInfo().getName());
-		
-		TextView fibre = (TextView) findViewById(R.id.iteminfo_fibre);
-		fibre.setText(item.getInfo().getName());
-		
-		TextView salt = (TextView) findViewById(R.id.iteminfo_salt);
-		salt.setText(item.getInfo().getName());
-		
+		if (null != item.getInfo().getPer100g()) {
+			TextView calories = (TextView) findViewById(R.id.iteminfo_calories);
+			calories.setText(item.getInfo().getPer100g().getCalories());
+
+			TextView protein = (TextView) findViewById(R.id.iteminfo_protein);
+			protein.setText(item.getInfo().getPer100g().getProtein());
+
+			TextView carbs = (TextView) findViewById(R.id.iteminfo_carbs);
+			carbs.setText(item.getInfo().getPer100g().getCarbohydrate());
+
+			TextView fat = (TextView) findViewById(R.id.iteminfo_fat);
+			fat.setText(item.getInfo().getPer100g().getFat());
+
+			TextView fibre = (TextView) findViewById(R.id.iteminfo_fibre);
+			fibre.setText(item.getInfo().getPer100g().getFibre());
+
+			TextView salt = (TextView) findViewById(R.id.iteminfo_salt);
+			salt.setText(item.getInfo().getPer100g().getSalt());
+		}
 	}
 
 	@Override
