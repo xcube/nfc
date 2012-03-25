@@ -8,7 +8,6 @@ import org.xcube.nfc.service.FridgeService;
 import org.xcube.nfc.service.FridgeServiceImpl;
 import org.xcube.nfc.service.NutritionService;
 import org.xcube.nfc.service.NutritionServiceImpl;
-import org.xcube.nfc.util.LayoutUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +15,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -27,9 +27,9 @@ public class FridgeActivity extends Activity {
     private FridgeService fridgeService = new FridgeServiceImpl();
     private NutritionService nutritionService = new NutritionServiceImpl();
 
-    private static final String COUNT_LABEL = "";
-    private static final String ITEM_LABEL = "item";
-    private static final String CALORIES_LABEL = "calories";
+    private static final String COUNT_LABEL = "Amount";
+    private static final String ITEM_LABEL = "Item";
+    private static final String CALORIES_LABEL = "Kcal";
 
     private static final String TABLE_BODY_TAG = "tableBody";
 
@@ -73,14 +73,43 @@ public class FridgeActivity extends Activity {
         for (ItemWithQuantity item : items) {
             mainTable.addView(getItemRow(item));
         }
+        mainTable.addView(getNutritionButton());
+    }
+
+    public Button getNutritionButton() {
+
+        Button button = new Button(this);
+        button.setText("Nutrition Info");
+        
+        final Intent nutritionActivityIntent = new Intent(this,
+                NutritionActivity.class);
+        /* add on click listener */
+        button.setOnTouchListener(new OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // do something here when the element is clicked
+                    startActivity(nutritionActivityIntent);
+                }
+
+                // true if the event was handled
+                // and should not be given further down to other views.
+                // if no other child view of this should get the event then
+                // return false
+                return true;
+            }
+        });
+        return button;
     }
 
     public TableRow getItemRow(final ItemWithQuantity item) {
 
         TableRow tableRow = new TableRow(this);
+        tableRow.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
         tableRow.setTag(TABLE_BODY_TAG);
         int quantity = item.getQuantity();
-        tableRow.addView(getTextView(Integer.toString(quantity)));
+        tableRow.addView(getTextView("#" + Integer.toString(quantity)));
         ItemInfo itemInfo = item.getItem().getInfo();
         TextView nameTextView = getTextView(itemInfo.getName());
         tableRow.addView(nameTextView);
