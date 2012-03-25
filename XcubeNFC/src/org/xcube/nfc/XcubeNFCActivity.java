@@ -93,17 +93,19 @@ public class XcubeNFCActivity extends Activity {
     }
 
 	private void processIntent(Intent intent) {
-		resolveIntent(intent);
-        
-        Item itemInTag = getItem(getItemInfo());
-        if(null != itemInTag) {
-        	basketService.addItemToBasket(itemInTag);
-        }
-        LayoutUtil.clearTaggedChildren(
-        		(ViewGroup)findViewById(R.id.basketTable), BASKET_ROW_TAG);
-        for(ItemWithQuantity item : basketService.getItems()) {
-        	addItemToView(item);
-        }
+		if(resolveIntent(intent)) {
+           
+    		System.out.println("------ action === " + intent.getAction());
+            Item itemInTag = getItem(getItemInfo());
+            if(null != itemInTag) {
+            	basketService.addItemToBasket(itemInTag);
+            }
+            LayoutUtil.clearTaggedChildren(
+            		(ViewGroup)findViewById(R.id.basketTable), BASKET_ROW_TAG);
+            for(ItemWithQuantity item : basketService.getItems()) {
+            	addItemToView(item);
+            }
+		}
 	}
 
 	private void configureForegroundDispatch() {
@@ -170,7 +172,7 @@ public class XcubeNFCActivity extends Activity {
 	        row.addView(getTextView("#"+item.getQuantity()));
 	       	row.addView(getTextView(item.getItem().getName()));
 	       	row.addView(getTextView(item.getItem().getInfo().getPer100g().getCalories()));
-	       	row.addView(getTextView("£"+item.getItem().getPrice()));
+	       	row.addView(getTextView("ï¿½"+item.getItem().getPrice()));
 	       	row.addView(getButton());
 	       	table.addView(row);
 		}
@@ -214,7 +216,7 @@ public class XcubeNFCActivity extends Activity {
         priceLabel.setText(PRICE_LABEL);
     }
     
-    void resolveIntent(Intent intent) {
+    boolean resolveIntent(Intent intent) {
         // Parse the intent
         String action = intent.getAction();
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
@@ -224,11 +226,9 @@ public class XcubeNFCActivity extends Activity {
             // that time we read it from the database and view it.
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             tagData = tagHandler.readTag(rawMsgs);
-            
-        } else {
-            Log.e(TAG, "Unknown intent " + intent);
-            return;
-        }
+            return true;
+        } 
+        return false;
     }
     
     @Override

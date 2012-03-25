@@ -1,16 +1,11 @@
 package org.xcube.nfc;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import org.xcube.nfc.domain.Basket;
-import org.xcube.nfc.domain.Item;
 import org.xcube.nfc.domain.ItemInfo;
 import org.xcube.nfc.domain.ItemWithQuantity;
 import org.xcube.nfc.service.FridgeService;
 import org.xcube.nfc.service.FridgeServiceImpl;
-import org.xcube.nfc.service.ItemInfoService;
-import org.xcube.nfc.service.ItemInfoServiceImpl;
 import org.xcube.nfc.service.NutritionService;
 import org.xcube.nfc.service.NutritionServiceImpl;
 import org.xcube.nfc.util.LayoutUtil;
@@ -31,8 +26,6 @@ public class FridgeActivity extends Activity {
 
     private FridgeService fridgeService = new FridgeServiceImpl();
     private NutritionService nutritionService = new NutritionServiceImpl();
-    // remove - just for testing
-    private ItemInfoService itemInfoService = new ItemInfoServiceImpl();
 
     private static final String COUNT_LABEL = "";
     private static final String ITEM_LABEL = "item";
@@ -45,16 +38,6 @@ public class FridgeActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setMainView();
-        // remove just for testing
-        String upc = "5052319832228";
-        ItemInfo itemInfo = itemInfoService.getItemInfo(upc);
-        Item item = new Item(itemInfo);
-        item.setPrice(new BigDecimal("4.00"));
-        Basket basket = new Basket();
-        basket.addItem(item);
-        fridgeService.checkout(basket);
-        setItems();
-        // end of testing code
     }
 
     @Override
