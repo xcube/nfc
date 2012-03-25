@@ -11,6 +11,7 @@ import org.xcube.nfc.service.FridgeService;
 import org.xcube.nfc.service.FridgeServiceImpl;
 import org.xcube.nfc.service.ItemInfoService;
 import org.xcube.nfc.service.ItemInfoServiceImpl;
+import org.xcube.nfc.util.LayoutUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -54,10 +56,10 @@ public class FridgeActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        clearItems();
+        LayoutUtil.clearTaggedChildren((ViewGroup)findViewById(R.id.main_table), TABLE_BODY_TAG);
         setItems();
     }
-
+/*
     private void clearItems() {
 
         TableLayout mainTable = (TableLayout) findViewById(R.id.main_table);
@@ -70,7 +72,7 @@ public class FridgeActivity extends Activity {
             }
         }
     }
-
+*/
     private void setMainView() {
 
         setContentView(R.layout.fridge);
