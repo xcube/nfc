@@ -28,7 +28,7 @@ public class ItemsWithQuantities {
 		ItemWithQuantity existingItem = find(iq.getItem());
 		if (null == existingItem) {
 			// create a new ItemWithQuantity to isolate us from changes to the basket
-			 existingItem = new ItemWithQuantity(iq.getItem(), iq.decQuantity());
+			 existingItem = new ItemWithQuantity(iq.getItem(), iq.getQuantity());
 			items.add(existingItem);
 		} else {
 			existingItem.setQuantity(existingItem.getQuantity() + iq.getQuantity());

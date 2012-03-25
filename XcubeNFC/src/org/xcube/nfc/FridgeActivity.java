@@ -11,6 +11,8 @@ import org.xcube.nfc.service.FridgeService;
 import org.xcube.nfc.service.FridgeServiceImpl;
 import org.xcube.nfc.service.ItemInfoService;
 import org.xcube.nfc.service.ItemInfoServiceImpl;
+import org.xcube.nfc.service.NutritionService;
+import org.xcube.nfc.service.NutritionServiceImpl;
 import org.xcube.nfc.util.LayoutUtil;
 
 import android.app.Activity;
@@ -28,6 +30,7 @@ import android.widget.TextView;
 public class FridgeActivity extends Activity {
 
     private FridgeService fridgeService = new FridgeServiceImpl();
+    private NutritionService nutritionService = new NutritionServiceImpl();
     // remove - just for testing
     private ItemInfoService itemInfoService = new ItemInfoServiceImpl();
 
@@ -57,7 +60,8 @@ public class FridgeActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        LayoutUtil.clearTaggedChildren((ViewGroup)findViewById(R.id.main_table), TABLE_BODY_TAG);
+        LayoutUtil.clearTaggedChildren(
+                (ViewGroup) findViewById(R.id.main_table), TABLE_BODY_TAG);
         setItems();
     }
 
@@ -100,9 +104,12 @@ public class FridgeActivity extends Activity {
         eatButton.setText("eat");
         tableRow.addView(eatButton);
 
-        final Intent itemDetailsIntent = new Intent(this, ItemDetailActivity.class);
-        itemDetailsIntent.putExtra(ItemDetailActivity.ITEM_KEY, itemInfo.getUpc());
-        itemDetailsIntent.putExtra(ItemDetailActivity.BACK_KEY, ItemDetailActivity.FROM_FRIDGE);
+        final Intent itemDetailsIntent = new Intent(this,
+                ItemDetailActivity.class);
+        itemDetailsIntent.putExtra(ItemDetailActivity.ITEM_KEY,
+                itemInfo.getUpc());
+        itemDetailsIntent.putExtra(ItemDetailActivity.BACK_KEY,
+                ItemDetailActivity.FROM_FRIDGE);
 
         /* add on click listener */
         nameTextView.setOnTouchListener(new OnTouchListener() {
@@ -116,11 +123,11 @@ public class FridgeActivity extends Activity {
 
                 // true if the event was handled
                 // and should not be given further down to other views.
-                // if no other child view of this should get the event then return false
+                // if no other child view of this should get the event then
+                // return false
                 return true;
             }
-        })
-;
+        });
         /* eat button listener */
         eatButton.setOnTouchListener(new OnTouchListener() {
 
@@ -128,13 +135,15 @@ public class FridgeActivity extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     // do something here when the element is clicked
+                    nutritionService.addItem(item.getItem());
                     fridgeService.getFridge().removeItem(item.getItem());
                     onResume();
                 }
 
                 // true if the event was handled
                 // and should not be given further down to other views.
-                // if no other child view of this should get the event then return false
+                // if no other child view of this should get the event then
+                // return false
                 return true;
             }
         });
