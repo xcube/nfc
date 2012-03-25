@@ -43,8 +43,10 @@ public class FridgeActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        LayoutUtil.clearTaggedChildren(
-                (ViewGroup) findViewById(R.id.main_table), TABLE_BODY_TAG);
+//        LayoutUtil.clearTaggedChildren(
+//                (ViewGroup) findViewById(R.id.main_table), TABLE_BODY_TAG);
+        ((ViewGroup) findViewById(R.id.main_table)).removeAllViews();
+        setMainView();
         setItems();
     }
 
@@ -65,6 +67,7 @@ public class FridgeActivity extends Activity {
     private void setItems() {
 
         List<ItemWithQuantity> items = fridgeService.getFridge().getItems();
+        System.out.println("--- number of items == " + items.size());
 
         TableLayout mainTable = (TableLayout) findViewById(R.id.main_table);
         for (ItemWithQuantity item : items) {
