@@ -24,4 +24,14 @@ public class BasketServiceImpl implements BasketService {
 	public List<ItemWithQuantity> getItems() {
 		return basket.getItems();
 	}
+	
+	@Override
+	public void clearBasket() {
+		basket = new Basket();
+	}
+	
+	@Override
+	public Basket getBasket() {
+		return basket;
+	}
 }
