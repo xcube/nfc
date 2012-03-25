@@ -1,11 +1,16 @@
 package org.xcube.nfc;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.xcube.nfc.domain.Basket;
+import org.xcube.nfc.domain.Item;
 import org.xcube.nfc.domain.ItemInfo;
 import org.xcube.nfc.domain.ItemWithQuantity;
 import org.xcube.nfc.service.FridgeService;
 import org.xcube.nfc.service.FridgeServiceImpl;
+import org.xcube.nfc.service.ItemInfoService;
+import org.xcube.nfc.service.ItemInfoServiceImpl;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +25,8 @@ import android.widget.TextView;
 public class FridgeActivity extends Activity {
 
     private FridgeService fridgeService = new FridgeServiceImpl();
+    // remove - just for testing
+    private ItemInfoService itemInfoService = new ItemInfoServiceImpl();
 
     private static final String COUNT_LABEL = "";
     private static final String ITEM_LABEL = "item";
@@ -30,12 +37,35 @@ public class FridgeActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setMainView();
+        // remove just for testing
+        String upc = "5052319832228";
+        ItemInfo itemInfo = itemInfoService.getItemInfo(upc);
+        Item item = new Item(itemInfo);
+        item.setPrice(new BigDecimal("4.00"));
+        Basket basket = new Basket();
+        basket.addItem(item);
+        fridgeService.checkout(basket);
+        setItems();
+        // end of testing code
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        clearItems();
         setItems();
+    }
+
+    private void clearItems() {
+
+        // TODO
+//        TableLayout mainTable = (TableLayout) findViewById(R.id.main_table);
+//        int childrenCount = mainTable.getChildCount();
+//        if (childrenCount > 2) {
+//            for (int x = childrenCount; x > 0; --x) {
+//                mainTable.removeViewAt(x);
+//            }
+//        }
     }
 
     private void setMainView() {
@@ -73,11 +103,11 @@ public class FridgeActivity extends Activity {
 
         final Intent itemDetailsIntent = new Intent(this, ItemDetailActivity.class);
         itemDetailsIntent.putExtra(ItemDetailActivity.ITEM_KEY, itemInfo.getUpc());
+        itemDetailsIntent.putExtra(ItemDetailActivity.BACK_KEY, ItemDetailActivity.FROM_FRIDGE);
 
         /* add on click listener */
         tableRow.setOnTouchListener(new OnTouchListener() {
 
-            
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {

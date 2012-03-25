@@ -8,18 +8,22 @@
     <!-- name -->
     <TextView
         android:id="@+id/item_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="3dip" />
 
     <!-- image -->
 	<ImageView android:id="@+id/item_image"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
 	    android:contentDescription="@string/item_image" />
 
     <!-- nutrition table -->
 
     <TableLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:stretchColumns="1" >
 
         <!-- table heading -->
@@ -100,5 +104,7 @@
 
     <Button 
         android:id="@+id/iteminfo_back" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:text="@string/iteminfo_back" />
 </LinearLayout>
